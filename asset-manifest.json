@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/DT-study-frontend/static/js/main.9c115362.js",
+    "main.js": "/DT-study-frontend/static/js/main.769dc430.js",
     "static/js/787.1d61570b.chunk.js": "/DT-study-frontend/static/js/787.1d61570b.chunk.js",
     "index.html": "/DT-study-frontend/index.html",
-    "main.9c115362.js.map": "/DT-study-frontend/static/js/main.9c115362.js.map",
+    "main.769dc430.js.map": "/DT-study-frontend/static/js/main.769dc430.js.map",
     "787.1d61570b.chunk.js.map": "/DT-study-frontend/static/js/787.1d61570b.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.9c115362.js"
+    "static/js/main.769dc430.js"
   ]
 }
