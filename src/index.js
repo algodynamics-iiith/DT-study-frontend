@@ -9,7 +9,11 @@ import Homepage from "./pages/Homepage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <div>
+      I will always be visible
+      <br />
+    </div>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="home" element={<Homepage />} />
