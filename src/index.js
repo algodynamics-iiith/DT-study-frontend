@@ -9,8 +9,8 @@ import Homepage from "./pages/Homepage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <div>
-      I will always be visible
+    <div style={{ background: "blue", color: "white" }}>
+      I am header
       <br />
     </div>
     <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -24,6 +24,10 @@ root.render(
           </Route> */}
       </Routes>
     </BrowserRouter>
+    <div style={{ background: "blue", color: "white" }}>
+      I am footer
+      <br />
+    </div>
   </React.StrictMode>
 );
 
