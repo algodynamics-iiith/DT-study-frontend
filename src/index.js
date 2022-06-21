@@ -5,6 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 
 import App from "./App";
 import Homepage from "./pages/Homepage";
+import CodeEditor from "./pages/CodeEditor";
+import CodeDebugger from "./pages/CodeDebugger";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +19,8 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Homepage />} />
+        <Route path="/code" element={<CodeEditor />} />
+        <Route path="/debug" element={<CodeDebugger />} />
         {/* <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />
