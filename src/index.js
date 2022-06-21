@@ -16,7 +16,7 @@ root.render(
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="home" element={<Homepage />} />
+        <Route path="/home" element={<Homepage />} />
         {/* <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />
