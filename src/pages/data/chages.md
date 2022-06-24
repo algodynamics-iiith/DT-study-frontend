@@ -1,0 +1,1 @@
+- get algorithm id from browser than hardcoding

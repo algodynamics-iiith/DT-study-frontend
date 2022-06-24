@@ -1,15 +1,20 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
+import { languagesToId, languagesToMoncaId } from "./data/languages";
+import { algorithmsIdToTemplate } from "./data/algorithms";
+import headers from "./data/headers";
+import { generateFinalCode, mainFunctions } from "./data/main";
 
 const CodeEditor = () => {
-  const [value, setValue] = useState(
-    '#include<"stdio.h">\nint printMe(int n){\n \n}'
-  );
-  const [language, setLanguage] = useState("c");
+  const [algorithmId, setAlgorithmId] = useState(1);
+  const [language, setLanguage] = useState("C (GCC 9.2.0)");
+  const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
+
   const [theme, setTheme] = useState("vs-dark");
 
-  const onChange = (newValue, e) => {
-    setValue(newValue);
+  const onChangeText = (newValue, e) => {
+    value[language] = newValue;
+    setValue(value);
   };
 
   return (
@@ -33,12 +38,9 @@ const CodeEditor = () => {
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
               >
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="csharp">C#</option>
-                <option value="c++">C++</option>
-                <option value="c">C</option>
-                <option value="ruby">Ruby</option>
+                {Object.keys(languagesToMoncaId).map((lang) => (
+                  <option value={lang}>{lang}</option>
+                ))}
               </select>
             </div>
             <div
@@ -52,10 +54,15 @@ const CodeEditor = () => {
           </div>
           <Editor
             height="77vh"
-            language={language}
+            language={languagesToMoncaId[language]}
             theme={theme}
-            value={value}
-            onChange={onChange}
+            // value={generateFinalCode(
+            //   headers[language],
+            //   value[language],
+            //   mainFunctions[language]
+            // )}
+            value={value[language]}
+            onChange={onChangeText}
             quickSuggestions={false}
           />
         </div>
