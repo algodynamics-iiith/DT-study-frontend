@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import { languagesToId, languagesToMoncaId } from "./data/languages";
+import { languagesToMonacoId } from "./data/languages";
 import { algorithmsIdToTemplate } from "./data/algorithms";
-import headers from "./data/headers";
-import { generateFinalCode, mainFunctions } from "./data/main";
+// import headers from "./data/headers";
+// import { generateFinalCode, mainFunctions } from "./data/main";
 
 const CodeEditor = () => {
-  const [algorithmId, setAlgorithmId] = useState(1);
+  const algorithmId = 1;
   const [language, setLanguage] = useState("C (GCC 9.2.0)");
   const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
 
@@ -38,8 +38,10 @@ const CodeEditor = () => {
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
               >
-                {Object.keys(languagesToMoncaId).map((lang) => (
-                  <option value={lang}>{lang}</option>
+                {Object.keys(languagesToMonacoId).map((lang) => (
+                  <option key={lang} value={lang}>
+                    {lang}
+                  </option>
                 ))}
               </select>
             </div>
@@ -54,7 +56,7 @@ const CodeEditor = () => {
           </div>
           <Editor
             height="77vh"
-            language={languagesToMoncaId[language]}
+            language={languagesToMonacoId[language]}
             theme={theme}
             // value={generateFinalCode(
             //   headers[language],

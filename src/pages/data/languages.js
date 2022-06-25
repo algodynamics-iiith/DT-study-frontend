@@ -6,7 +6,7 @@ const languagesToId = {
   "Python (3.8.1)": 71,
 };
 
-const languagesToMoncaId = {
+const languagesToMonacoId = {
   "C (GCC 9.2.0)": "c",
   "C++ (GCC 9.2.0)": "cpp",
   "Java (OpenJDK 13.0.1)": "java",
@@ -14,4 +14,4 @@ const languagesToMoncaId = {
   "Python (3.8.1)": "python",
 };
 
-export { languagesToId, languagesToMoncaId };
+export { languagesToId, languagesToMonacoId };
