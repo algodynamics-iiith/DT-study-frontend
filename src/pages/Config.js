@@ -3,6 +3,9 @@ const config = {
   errors: {
     compilation: 6,
   },
+  editor: {
+    theme: "vs-dark",
+  },
   judge0: {
     minValidStatus: 3,
     maxValidStatus: 12,

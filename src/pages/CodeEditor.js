@@ -18,12 +18,12 @@ const CodeEditor = () => {
   const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
   const [disabled, setDisabled] = useState(false);
   const [output, setOutput] = useState("Output Test/Submit will display here!");
-  const [theme, setTheme] = useState("vs-dark");
   const [loading, setLoading] = useState(false);
 
   const { minValidStatus, maxValidStatus } = config.judge0;
   const { testCasesCount } = config;
   const { compilation } = config.errors;
+  const { theme } = config.editor;
 
   const onChangeText = (newValue, e) => {
     value[language] = newValue;
