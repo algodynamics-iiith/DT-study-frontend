@@ -1,12 +1,15 @@
 import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import { languagesToMonacoId } from "./data/languages";
+import { languagesToMonacoId, languagesToId } from "./data/languages";
 import { algorithmsIdToTemplate } from "./data/algorithms";
-// import headers from "./data/headers";
-// import { generateFinalCode, mainFunctions } from "./data/main";
+import { encode } from "./Utils";
+import encodedTestCases from "./data/testCases";
+import headers from "./data/headers";
+import { generateFinalCode, mainFunctions } from "./data/main";
 
 const CodeEditor = () => {
   const algorithmId = 1;
+  const userId = "EimCVP8SB0";
   const [language, setLanguage] = useState("C (GCC 9.2.0)");
   const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
 
@@ -15,6 +18,27 @@ const CodeEditor = () => {
   const onChangeText = (newValue, e) => {
     value[language] = newValue;
     setValue(value);
+  };
+
+  const onClickSubmit = (e) => {
+    const finalCode = generateFinalCode(
+      headers[language],
+      value[language],
+      mainFunctions[language]
+    );
+    console.log(finalCode);
+    const encodedCode = encode(finalCode);
+    console.log(encodedCode);
+
+    const vjs = {
+      id: userId,
+      source_code: encodedCode,
+      language_id: languagesToId[language],
+      inputs: encodedTestCases.inputs,
+      outputs: encodedTestCases.outputs,
+    };
+    // console.log(JSON.stringify(vjs));
+    console.log(vjs);
   };
 
   return (
@@ -51,18 +75,13 @@ const CodeEditor = () => {
               }}
             >
               <button>Test</button>
-              <button>Submit</button>
+              <button onClick={onClickSubmit}>Submit</button>
             </div>
           </div>
           <Editor
             height="77vh"
             language={languagesToMonacoId[language]}
             theme={theme}
-            // value={generateFinalCode(
-            //   headers[language],
-            //   value[language],
-            //   mainFunctions[language]
-            // )}
             value={value[language]}
             onChange={onChangeText}
             quickSuggestions={false}
