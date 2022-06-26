@@ -1,5 +1,12 @@
 const config = {
   testCasesCount: 3,
+  errors: {
+    compilation: 6,
+  },
+  judge0: {
+    minValidStatus: 3,
+    maxValidStatus: 12,
+  },
   1: {
     lengthArray: 100,
     minValue: -100,

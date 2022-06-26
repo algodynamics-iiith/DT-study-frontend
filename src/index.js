@@ -16,21 +16,21 @@ root.render(
       <div className="bg-gray-800 flex justify-between py-4 px-2 text-md text-gray-100 font-bold">
         <h1 className="text-xl">Algodynamics Driving Test Study</h1>
       </div>
-      <div className="flex-grow flex overflow-hidden">
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/home" element={<Homepage />} />
-            <Route path="/code" element={<CodeEditor />} />
-            <Route path="/debug" element={<CodeDebugger />} />
-            {/* <Route path="teams" element={<Teams />}>
+      {/* <div className="flex-grow flex overflow-hidden"> */}
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/home" element={<Homepage />} />
+          <Route path="/code" element={<CodeEditor />} />
+          <Route path="/debug" element={<CodeDebugger />} />
+          {/* <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />
             <Route index element={<LeagueStandings />} />
           </Route> */}
-          </Routes>
-        </BrowserRouter>
-      </div>
+        </Routes>
+      </BrowserRouter>
+      {/* </div> */}
       <div id="footer" className="flex bg-gray-500 justify-center">
         <h3>
           Copyright © 2020-2022,
