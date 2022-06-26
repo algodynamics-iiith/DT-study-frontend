@@ -6,6 +6,7 @@ import { encode } from "./Utils";
 import encodedTestCases from "./data/testCases";
 import headers from "./data/headers";
 import { generateFinalCode, mainFunctions } from "./data/main";
+import client from "./api";
 
 const CodeEditor = () => {
   const algorithmId = 1;
@@ -30,15 +31,18 @@ const CodeEditor = () => {
     const encodedCode = encode(finalCode);
     console.log(encodedCode);
 
-    const vjs = {
-      id: userId,
-      source_code: encodedCode,
-      language_id: languagesToId[language],
-      inputs: encodedTestCases.inputs,
-      outputs: encodedTestCases.outputs,
-    };
-    // console.log(JSON.stringify(vjs));
-    console.log(vjs);
+    client
+      .post(
+        "/submitCode",
+        JSON.stringify({
+          id: userId,
+          source_code: encodedCode,
+          language_id: languagesToId[language],
+          inputs: encodedTestCases.inputs,
+          outputs: encodedTestCases.outputs,
+        })
+      )
+      .then((response) => console.log(response));
   };
 
   return (
