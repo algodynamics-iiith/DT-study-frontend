@@ -42,7 +42,7 @@ const CodeEditor = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div className="flex flex-grow">
       {/* Beautify the div */}
       {/* Add border */}
       <div style={{ width: "50%" }}>
