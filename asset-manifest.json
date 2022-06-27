@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/DT-study-frontend/static/css/main.f2d048f2.css",
-    "main.js": "/DT-study-frontend/static/js/main.2df00f53.js",
+    "main.css": "/DT-study-frontend/static/css/main.24c519d2.css",
+    "main.js": "/DT-study-frontend/static/js/main.8c5be4d4.js",
     "static/js/787.1d61570b.chunk.js": "/DT-study-frontend/static/js/787.1d61570b.chunk.js",
     "index.html": "/DT-study-frontend/index.html",
-    "main.f2d048f2.css.map": "/DT-study-frontend/static/css/main.f2d048f2.css.map",
-    "main.2df00f53.js.map": "/DT-study-frontend/static/js/main.2df00f53.js.map",
+    "main.24c519d2.css.map": "/DT-study-frontend/static/css/main.24c519d2.css.map",
+    "main.8c5be4d4.js.map": "/DT-study-frontend/static/js/main.8c5be4d4.js.map",
     "787.1d61570b.chunk.js.map": "/DT-study-frontend/static/js/787.1d61570b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f2d048f2.css",
-    "static/js/main.2df00f53.js"
+    "static/css/main.24c519d2.css",
+    "static/js/main.8c5be4d4.js"
   ]
 }
