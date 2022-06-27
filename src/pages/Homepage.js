@@ -1,14 +1,8 @@
-import { useEffect } from "react";
 import Swal from "sweetalert2";
 import client from "./api";
+import paths from "./data/paths";
 
 const Homepage = () => {
-  useEffect(() => {
-    if (localStorage.getItem("userId") != null) {
-      getAlgorithm(localStorage.getItem("userId"));
-    }
-    // eslint-disable-next-line
-  }, []);
   // Restructure
   const Toast = Swal.mixin({
     toast: true,
@@ -41,14 +35,10 @@ const Homepage = () => {
           icon: "success",
           title: "Redirecting!",
         }).then((result) => {
-          console.log(window.location.href);
-          if (algorithmId % 2 === 0) {
-            localStorage.setItem("task", 0);
-            window.location.href = "./code";
-          } else {
-            localStorage.setItem("task", 0);
-            window.location.href = "./quiz";
-          }
+          localStorage.setItem("current", 0);
+          localStorage.setItem("path", JSON.stringify(paths[algorithmId % 2]));
+          window.location.href =
+            "." + JSON.parse(localStorage.getItem("path"))[0];
         });
       })
       .catch((error) => {
