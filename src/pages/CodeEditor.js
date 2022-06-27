@@ -33,11 +33,9 @@ const CodeEditor = () => {
   };
 
   const displayText = (submissions) => {
-    const t = submissions
+    return submissions
       .map((x, i) => `Test Case ${i + 1} : ${x.status.description}`)
       .join("\n");
-    console.log(t);
-    return t;
   };
 
   const showTestOutput = (submissions) => {
@@ -62,14 +60,45 @@ const CodeEditor = () => {
       footer: "Please try again.",
     });
   };
-  const submitCode = async (data, count, f) => {
+  const submitCode = async (
+    count,
+    display,
+    disabled,
+    test,
+    inputs,
+    outputs
+  ) => {
+    disabled(true);
+    setOutput("");
+
+    Toast.fire({
+      icon: "success",
+      title: "Submitted Successfully!",
+    });
+    const finalCode = generateFinalCode(
+      headers[language],
+      value[language],
+      mainFunctions[language]
+    );
+
+    const encodedCode = encode(finalCode);
+
     setLoading(true);
     await client
-      .post("/submitCode", JSON.stringify(data))
+      .post(
+        "/submitCode",
+        JSON.stringify({
+          id: userId,
+          source_code: encodedCode,
+          language_id: languagesToId[language],
+          inputs,
+          outputs,
+          test,
+        })
+      )
       .then((response) => {
         setLoading(false);
         let submissions = response.data.submissions;
-        console.log(submissions);
 
         let filteredSubmission = submissions.filter(
           (x) => x.status.id >= minValidStatus && x.status.id <= maxValidStatus
@@ -78,7 +107,7 @@ const CodeEditor = () => {
           if (submissions[0].status.id === compilation) {
             setOutput(decode(submissions[0].compile_output));
           } else {
-            setOutput(f(submissions));
+            setOutput(display(submissions));
           }
         } else {
           swalError("Something went wrong(Server)!");
@@ -88,53 +117,21 @@ const CodeEditor = () => {
         setLoading(false);
         swalError("Something went wrong!");
       });
+    disabled(false);
   };
 
   const onClickSubmit = async (e) => {
-    setDisabledS(true);
-    setOutput("");
-
-    Toast.fire({
-      icon: "success",
-      title: "Submitted Successfully!",
-    });
-    const finalCode = generateFinalCode(
-      headers[language],
-      value[language],
-      mainFunctions[language]
-    );
-
-    const encodedCode = encode(finalCode);
-
     submitCode(
-      {
-        id: userId,
-        source_code: encodedCode,
-        language_id: languagesToId[language],
-        inputs: encodedTestCases.inputs,
-        outputs: encodedTestCases.outputs,
-      },
       testCasesCount,
-      displayText
+      displayText,
+      setDisabledS,
+      false,
+      encodedTestCases.inputs,
+      encodedTestCases.outputs
     );
-    setDisabledS(false);
   };
 
   const onClickTest = async (e) => {
-    setDisabledT(true);
-    setOutput("");
-    Toast.fire({
-      icon: "success",
-      title: "Submitted Successfully!",
-    });
-    const finalCode = generateFinalCode(
-      headers[language],
-      value[language],
-      mainFunctions[language]
-    );
-    const encodedCode = encode(finalCode);
-    console.log(finalCode);
-
     Swal.fire({
       title: "Enter Custom Input",
       input: "textarea",
@@ -145,22 +142,11 @@ const CodeEditor = () => {
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
       preConfirm: (input) => {
-        submitCode(
-          {
-            id: userId,
-            source_code: encodedCode,
-            language_id: languagesToId[language],
-            inputs: [encode(input)],
-            outputs: [],
-            test: true,
-          },
-          1,
-          showTestOutput
-        );
+        submitCode(1, showTestOutput, setDisabledT, true, [encode(input)], []);
       },
+      backdrop: true,
       allowOutsideClick: () => !Swal.isLoading(),
     });
-    setDisabledT(false);
   };
 
   return (
