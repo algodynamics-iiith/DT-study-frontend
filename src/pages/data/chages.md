@@ -1,3 +1,5 @@
 - get algorithm id from browser than hardcoding
 - line number problem in compiler message
 - set loading false at appropriate places for example catch(err).
+- validate input
+- generalize submit and test

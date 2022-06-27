@@ -16,7 +16,9 @@ const CodeEditor = () => {
   const userId = "EimCVP8SB0";
   const [language, setLanguage] = useState("C (GCC 9.2.0)");
   const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
-  const [disabled, setDisabled] = useState(false);
+  const [disabledS, setDisabledS] = useState(false);
+  const [disabledT, setDisabledT] = useState(false);
+
   const [output, setOutput] = useState("Output Test/Submit will display here!");
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +40,12 @@ const CodeEditor = () => {
     return t;
   };
 
+  const showTestOutput = (submissions) => {
+    const op = submissions[0].stdout;
+    if (op !== null) return decode(op);
+    else return submissions[0].status.description;
+  };
+
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -46,10 +54,46 @@ const CodeEditor = () => {
     timerProgressBar: true,
   });
 
-  const onClickSubmit = async (e) => {
-    setDisabled(true);
-    setOutput("");
+  const swalError = (message) => {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: message,
+      footer: "Please try again.",
+    });
+  };
+  const submitCode = async (data, count, f) => {
     setLoading(true);
+    await client
+      .post("/submitCode", JSON.stringify(data))
+      .then((response) => {
+        setLoading(false);
+        let submissions = response.data.submissions;
+        console.log(submissions);
+
+        let filteredSubmission = submissions.filter(
+          (x) => x.status.id >= minValidStatus && x.status.id <= maxValidStatus
+        );
+        if (filteredSubmission.length === count) {
+          if (submissions[0].status.id === compilation) {
+            setOutput(decode(submissions[0].compile_output));
+          } else {
+            setOutput(f(submissions));
+          }
+        } else {
+          swalError("Something went wrong(Server)!");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        swalError("Something went wrong!");
+      });
+  };
+
+  const onClickSubmit = async (e) => {
+    setDisabledS(true);
+    setOutput("");
+
     Toast.fire({
       icon: "success",
       title: "Submitted Successfully!",
@@ -59,53 +103,64 @@ const CodeEditor = () => {
       value[language],
       mainFunctions[language]
     );
-    // console.log(finalCode);
+
     const encodedCode = encode(finalCode);
-    // console.log(encodedCode);
 
-    await client
-      .post(
-        "/submitCode",
-        JSON.stringify({
-          id: userId,
-          source_code: encodedCode,
-          language_id: languagesToId[language],
-          inputs: encodedTestCases.inputs,
-          outputs: encodedTestCases.outputs,
-        })
-      )
-      .then((response) => {
-        let submissions = response.data.submissions;
-        console.log(submissions);
+    submitCode(
+      {
+        id: userId,
+        source_code: encodedCode,
+        language_id: languagesToId[language],
+        inputs: encodedTestCases.inputs,
+        outputs: encodedTestCases.outputs,
+      },
+      testCasesCount,
+      displayText
+    );
+    setDisabledS(false);
+  };
 
-        let filteredSubmission = submissions.filter(
-          (x) => x.status.id >= minValidStatus && x.status.id <= maxValidStatus
+  const onClickTest = async (e) => {
+    setDisabledT(true);
+    setOutput("");
+    Toast.fire({
+      icon: "success",
+      title: "Submitted Successfully!",
+    });
+    const finalCode = generateFinalCode(
+      headers[language],
+      value[language],
+      mainFunctions[language]
+    );
+    const encodedCode = encode(finalCode);
+    console.log(finalCode);
+
+    Swal.fire({
+      title: "Enter Custom Input",
+      input: "textarea",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      showLoaderOnConfirm: true,
+      preConfirm: (input) => {
+        submitCode(
+          {
+            id: userId,
+            source_code: encodedCode,
+            language_id: languagesToId[language],
+            inputs: [encode(input)],
+            outputs: [],
+            test: true,
+          },
+          1,
+          showTestOutput
         );
-        if (filteredSubmission.length === testCasesCount) {
-          setLoading(false);
-          if (submissions[0].status.id === compilation) {
-            setOutput(decode(submissions[0].compile_output));
-          } else {
-            setOutput(displayText(submissions));
-          }
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong(Server)!",
-            footer: "Please try again.",
-          });
-        }
-      })
-      .catch((error) =>
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-          footer: "Please try again.",
-        })
-      );
-    setDisabled(false);
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+    setDisabledT(false);
   };
 
   return (
@@ -147,8 +202,10 @@ const CodeEditor = () => {
               width: "50%",
             }}
           >
-            <button>Test</button>
-            <button onClick={onClickSubmit} disabled={disabled}>
+            <button onClick={onClickTest} disabled={disabledT}>
+              Test
+            </button>
+            <button onClick={onClickSubmit} disabled={disabledS}>
               Submit
             </button>
           </div>
