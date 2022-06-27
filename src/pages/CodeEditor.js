@@ -26,6 +26,7 @@ const CodeEditor = () => {
   const { testCasesCount } = config;
   const { compilation } = config.errors;
   const { theme } = config.editor;
+  const { lengthArray, minValue, maxValue } = config[algorithmId];
 
   const onChangeText = (newValue, e) => {
     value[language] = newValue;
@@ -42,6 +43,40 @@ const CodeEditor = () => {
     const op = submissions[0].stdout;
     if (op !== null) return decode(op);
     else return submissions[0].status.description;
+  };
+
+  const validateInput = (input) => {
+    const splittedInput = input.trim().split("\n");
+    console.log(splittedInput);
+    if (splittedInput.length < 2)
+      return {
+        message: "There should be two lines in input.",
+        flag: false,
+      };
+    else {
+      const n = parseInt(splittedInput[0].trim());
+      if (isNaN(n) || (!isNaN(n) && (n < 0 || n > lengthArray)))
+        return {
+          message: "First line should be a valid number.",
+          flag: false,
+        };
+      else {
+        const a = splittedInput[1].trim().split(" ");
+
+        if (
+          a
+            .filter((x) => !isNaN(x))
+            // .filter(!isNaN)
+
+            .filter((x) => x >= minValue && x <= maxValue).length !== n
+        )
+          return {
+            message: `There should be exactly ${n} numbers.`,
+            flag: false,
+          };
+        else return { message: "Okay!", flag: true };
+      }
+    }
   };
 
   const Toast = Swal.mixin({
@@ -142,7 +177,19 @@ const CodeEditor = () => {
       confirmButtonText: "Submit",
       showLoaderOnConfirm: true,
       preConfirm: (input) => {
-        submitCode(1, showTestOutput, setDisabledT, true, [encode(input)], []);
+        const { message, flag } = validateInput(input);
+        if (flag)
+          submitCode(
+            1,
+            showTestOutput,
+            setDisabledT,
+            true,
+            [encode(input)],
+            []
+          );
+        else {
+          setOutput(message);
+        }
       },
       backdrop: true,
       allowOutsideClick: () => !Swal.isLoading(),
