@@ -188,7 +188,10 @@ const CodeEditor = () => {
             []
           );
         else {
-          setOutput(message);
+          Toast.fire({
+            icon: "error",
+            title: message,
+          });
         }
       },
       backdrop: true,
