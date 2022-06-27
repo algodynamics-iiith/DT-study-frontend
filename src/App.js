@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import CodeEditor from "./pages/CodeEditor";
 import CodeDebugger from "./pages/CodeDebugger";
+import QuizPage from "./pages/Quiz";
 import { useEffect } from "react";
 import client from "./pages/api";
 
@@ -50,6 +51,7 @@ const App = ({ element }) => {
           <Route path="/home" element={<Homepage />} />
           <Route path="/code" element={<CodeEditor />} />
           <Route path="/debug" element={<CodeDebugger />} />
+          <Route path="/quiz" element={<QuizPage />} />
           {/* <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />

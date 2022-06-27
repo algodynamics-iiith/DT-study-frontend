@@ -1,6 +1,6 @@
 const paths = [
-  ["/code", "/debug"],
-  ["/debug", "/code"],
+  ["/code", "/quiz"],
+  ["/quiz", "/code"],
 ];
 
 export default paths;
