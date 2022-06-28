@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Legacy install deps
+        run: npm install react-quiz-component --legacy-peer-deps
+
       - name: Install dependencies
         run: npm install
 
