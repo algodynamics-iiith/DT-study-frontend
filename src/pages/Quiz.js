@@ -2,12 +2,12 @@ import { useState } from "react";
 import { quiz } from "./quiz_templates/quizExampleDB";
 
 const QuizPage = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  // const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [score, setScore] = useState(0);
   const [showScore, setShowScore] = useState(false);
 
-  const handleAnswerOption = (answer) => {
+  const handleAnswerOption = (currentQuestion, answer) => {
     setSelectedOptions([
       (selectedOptions[currentQuestion] = { answerByUser: answer }),
     ]);
@@ -15,7 +15,7 @@ const QuizPage = () => {
     console.log(selectedOptions);
   };
 
-  const handleMultipleAnswerOption = (answer) => {
+  const handleMultipleAnswerOption = (currentQuestion, answer) => {
     if (selectedOptions[currentQuestion]?.answerByUser.includes(answer)) {
       selectedOptions[currentQuestion]?.answerByUser.splice(
         selectedOptions[currentQuestion]?.answerByUser.indexOf(answer),
@@ -26,15 +26,15 @@ const QuizPage = () => {
     }
   };
 
-  const handlePrevious = () => {
-    const prevQues = currentQuestion - 1;
-    prevQues >= 0 && setCurrentQuestion(prevQues);
-  };
+  // const handlePrevious = () => {
+  //   const prevQues = currentQuestion - 1;
+  //   prevQues >= 0 && setCurrentQuestion(prevQues);
+  // };
 
-  const handleNext = () => {
-    const nextQues = currentQuestion + 1;
-    nextQues < quiz.length && setCurrentQuestion(nextQues);
-  };
+  // const handleNext = () => {
+  //   const nextQues = currentQuestion + 1;
+  //   nextQues < quiz.length && setCurrentQuestion(nextQues);
+  // };
 
   const handleSubmitButton = () => {
     let newScore = 0;
@@ -60,8 +60,66 @@ const QuizPage = () => {
     setShowScore(true);
   };
 
+  // Create a list of questions render below each other
+  const questions = quiz.map((question, index_q) => {
+    return (
+      <div>
+        <div className="flex flex-col items-start w-full">
+          <h4 className="mt-10 text-xl text-white/60">
+            Question {index_q + 1} of {quiz.length}
+          </h4>
+          <div className="mt-4 text-2xl text-white">
+            {quiz[index_q].question}
+          </div>
+        </div>
+        <div className="flex flex-col w-full">
+          {quiz[index_q].type === "single"
+            ? quiz[index_q].answers.map((answer, index) => (
+                <div
+                  key={index}
+                  className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
+                  onClick={(e) => handleAnswerOption(index_q, answer)}
+                >
+                  <input
+                    type="radio"
+                    name={answer}
+                    value={answer}
+                    checked={answer === selectedOptions[index_q]?.answerByUser}
+                    onChange={(e) => handleAnswerOption(index_q, answer)}
+                    className="w-6 h-6 bg-black"
+                  />
+                  <p className="ml-6 text-white">{answer}</p>
+                </div>
+              ))
+            : quiz[index_q].answers.map((answer, index) => (
+                <div
+                  key={index}
+                  className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
+                  onClick={(e) => handleMultipleAnswerOption(index_q, answer)}
+                >
+                  <input
+                    type="checkbox"
+                    name={answer}
+                    value={answer}
+                    checked={selectedOptions[index_q]?.answerByUser.includes(
+                      answer
+                    )}
+                    onChange={(e) =>
+                      handleMultipleAnswerOption(index_q, answer)
+                    }
+                    className="w-6 h-6 bg-black"
+                  />
+                  <p className="ml-6 text-white">{answer}</p>
+                </div>
+              ))}
+        </div>
+      </div>
+    );
+  });
+
   return (
-    <div className="flex flex-col w-screen px-5 h-screen bg-[#1A1A1A] justify-center items-center">
+    // add scroll verticaly to the page
+    <div className="flex flex-col w-screen px-5 h-screen bg-[#1A1A1A] overflow-y-auto">
       <h1 className="text-3xl text-white item-start w-full">Quiz</h1>
       {showScore ? (
         <h1 className="text-3xl font-semibold text-center text-white">
@@ -69,74 +127,16 @@ const QuizPage = () => {
         </h1>
       ) : (
         <>
-          <div className="flex flex-col items-start w-full">
-            <h4 className="mt-10 text-xl text-white/60">
-              Question {currentQuestion + 1} of {quiz.length}
-            </h4>
-            <div className="mt-4 text-2xl text-white">
-              {quiz[currentQuestion].question}
-            </div>
-          </div>
-          <div className="flex flex-col w-full">
-            {quiz[currentQuestion].type === "single"
-              ? quiz[currentQuestion].answers.map((answer, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
-                    onClick={(e) => handleAnswerOption(answer)}
-                  >
-                    <input
-                      type="radio"
-                      name={answer}
-                      value={answer}
-                      checked={
-                        answer ===
-                        selectedOptions[currentQuestion]?.answerByUser
-                      }
-                      onChange={(e) => handleAnswerOption(answer)}
-                      className="w-6 h-6 bg-black"
-                    />
-                    <p className="ml-6 text-white">{answer}</p>
-                  </div>
-                ))
-              : quiz[currentQuestion].answers.map((answer, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center w-full py-4 pl-5 m-2 ml-0 space-x-2 border-2 cursor-pointer border-white/10 rounded-xl bg-white/5"
-                    onClick={(e) => handleMultipleAnswerOption(answer)}
-                  >
-                    <input
-                      type="checkbox"
-                      name={answer}
-                      value={answer}
-                      checked={selectedOptions[
-                        currentQuestion
-                      ]?.answerByUser.includes(answer)}
-                      onChange={(e) => handleMultipleAnswerOption(answer)}
-                      className="w-6 h-6 bg-black"
-                    />
-                    <p className="ml-6 text-white">{answer}</p>
-                  </div>
-                ))}
-          </div>
+          {questions}
           <div className="flex justify-between w-full mt-4 text-white">
             <button
-              onClick={handlePrevious}
-              className="w-[49%] py-3 bg-indigo-600 rounded-lg"
+              onClick={handleSubmitButton}
+              className="w-[49%] py-3 bg-indigo-600 rounded-lg margin"
             >
-              Previous
-            </button>
-            <button
-              onClick={
-                currentQuestion + 1 === quiz.length
-                  ? handleSubmitButton
-                  : handleNext
-              }
-              className="w-[49%] py-3 bg-indigo-600 rounded-lg"
-            >
-              {currentQuestion + 1 === quiz.length ? "Submit" : "Next"}
+              Submit
             </button>
           </div>
+          <br />
         </>
       )}
     </div>

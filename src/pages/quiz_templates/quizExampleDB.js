@@ -25,4 +25,12 @@ export const quiz = [
     correctAnswer: "Yes",
     qid: 3,
   },
+  {
+    question: "Do you like this song being stuck in your head?",
+    type: "single",
+    answers: ["Yes", "No", "It is not in my Head"],
+    score: 10,
+    correctAnswer: "Yes",
+    qid: 4,
+  },
 ];
