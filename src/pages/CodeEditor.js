@@ -1,19 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { languagesToMonacoId, languagesToId } from "./data/languages";
-import { algorithmsIdToTemplate } from "./data/algorithms";
+import { algorithmsIdToTemplate, dbIdToAlgorithmId } from "./data/algorithms";
 import { encode, decode } from "./Utils";
 import encodedTestCases from "./data/testCases";
-import headers from "./data/headers";
-import { generateFinalCode, mainFunctions } from "./data/main";
 import client from "./api";
 import Swal from "sweetalert2";
 import config from "./Config";
 import { PulseLoader } from "react-spinners";
+import codeInstructions from "./data/codeInstructions";
 
 const CodeEditor = () => {
-  const algorithmId = 1;
-  const userId = "EimCVP8SB0";
+  const [algorithmId, setAlgorithmId] = useState(1);
+  const [userId, setUserId] = useState(null);
   const [language, setLanguage] = useState("C (GCC 9.2.0)");
   const [value, setValue] = useState(algorithmsIdToTemplate[algorithmId]);
   const [disabledS, setDisabledS] = useState(false);
@@ -27,6 +26,16 @@ const CodeEditor = () => {
   const { compilation } = config.errors;
   const { theme } = config.editor;
   const { lengthArray, minValue, maxValue } = config[algorithmId];
+
+  const leftPanel = codeInstructions[algorithmId];
+
+  useEffect(() => {
+    let algorithmId = localStorage.getItem("algorithmId");
+    algorithmId = dbIdToAlgorithmId[algorithmId];
+    setAlgorithmId(algorithmId);
+    setUserId(localStorage.getItem("userId"));
+    setValue(algorithmsIdToTemplate[algorithmId]);
+  }, []);
 
   const onChangeText = (newValue, e) => {
     value[language] = newValue;
@@ -47,7 +56,6 @@ const CodeEditor = () => {
 
   const validateInput = (input) => {
     const splittedInput = input.trim().split("\n");
-    console.log(splittedInput);
     if (splittedInput.length < 2)
       return {
         message: "There should be two lines in input.",
@@ -110,13 +118,8 @@ const CodeEditor = () => {
       icon: "success",
       title: "Submitted Successfully!",
     });
-    const finalCode = generateFinalCode(
-      headers[language],
-      value[language],
-      mainFunctions[language]
-    );
 
-    const encodedCode = encode(finalCode);
+    const encodedCode = encode(value[language]);
 
     setLoading(true);
     await client
@@ -203,16 +206,36 @@ const CodeEditor = () => {
     <div className="flex flex-grow overflow-hidden">
       {/* Beautify the div */}
       {/* Add border */}
-      <div style={{ width: "50%", height: "100%" }}>
-        <p>This is the problem:</p>
-        <p>Complete the given function, to print the value</p>
+      <div style={{ height: "100%" }} className="overflow-y-scroll p-4 prose">
+        <h1>Problem Description</h1>
+        <p>{leftPanel["Problem Description"]}</p>
+        <h1>Instructions</h1>
+        <ol>
+          {leftPanel["Instructions"].map((instr, i) => (
+            <li key={i}>{instr}</li>
+          ))}
+        </ol>
+        <h1>Problem Constraints</h1>
+        <ol>
+          {leftPanel["Problem Constraints"].map((instr, i) => (
+            <li key={i}>{instr}</li>
+          ))}
+        </ol>
+        <h1>Input Format</h1>
+        <p>{leftPanel["Input Format"]}</p>
+        <h1>Output Format</h1>
+        <p>{leftPanel["Output Format"]}</p>
+        <h1>Example Input</h1>
+        <pre>{leftPanel["Example Input"]}</pre>
+        <h1>Example Output</h1>
+        <pre>{leftPanel["Example Output"]}</pre>
       </div>
       <div
         style={{
           display: "flex",
-          width: "50%",
           flexDirection: "column",
           height: "100%",
+          flexGrow: "1",
         }}
       >
         {/* Add three buttons side by side */}
@@ -220,7 +243,14 @@ const CodeEditor = () => {
         {/* One to test */}
         {/* One to submit */}
         <div style={{ display: "flex" }}>
-          <div style={{ width: "50%" }}>
+          <div
+            style={{
+              width: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <label>Language: </label>
             <select
               value={language}
@@ -236,12 +266,22 @@ const CodeEditor = () => {
           <div
             style={{
               width: "50%",
+              display: "flex",
+              justifyContent: "space-around",
             }}
           >
-            <button onClick={onClickTest} disabled={disabledT}>
+            <button
+              onClick={onClickTest}
+              disabled={disabledT}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
+            >
               Test
             </button>
-            <button onClick={onClickSubmit} disabled={disabledS}>
+            <button
+              onClick={onClickSubmit}
+              disabled={disabledS}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
+            >
               Submit
             </button>
           </div>
