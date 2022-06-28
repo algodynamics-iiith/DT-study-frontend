@@ -4,10 +4,13 @@ import Homepage from "./pages/Homepage";
 import CodeEditor from "./pages/CodeEditor";
 import CodeDebugger from "./pages/CodeDebugger";
 import QuizPage from "./pages/Quiz";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import client from "./pages/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
 
 const App = ({ element }) => {
+  let [rollNo, setRollNo] = useState(null);
   useEffect(() => {
     if (localStorage.getItem("userId") != null) {
       getAlgorithm(localStorage.getItem("userId"));
@@ -27,6 +30,8 @@ const App = ({ element }) => {
         let desiredPath = JSON.parse(localStorage.getItem("path"))[
           parseInt(localStorage.getItem("current"))
         ];
+        // Replace it with the roll number field
+        setRollNo(response.data.id);
         if (window.location.pathname.slice(18) !== desiredPath) {
           window.location.href = "." + desiredPath;
         }
@@ -39,10 +44,20 @@ const App = ({ element }) => {
       });
   };
 
+  const makeFullScreen = () => {
+    console.log("FullScreen Toggle");
+  };
+
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <div className="bg-gray-800 flex justify-between py-4 px-2 text-md text-gray-100 font-bold">
         <h1 className="text-xl">Algodynamics Driving Test Study</h1>
+        <div className="flex w-1/6 justify-end items-center">
+          <h1 className="texl-lg px-4 ">{rollNo}</h1>
+          <button onClick={makeFullScreen} className="px-2">
+            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+          </button>
+        </div>
       </div>
       {/* <div className="flex-grow flex overflow-hidden"> */}
       <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -61,12 +76,7 @@ const App = ({ element }) => {
       </BrowserRouter>
       {/* </div> */}
       <div id="footer" className="flex bg-gray-500 justify-center">
-        <h3>
-          Copyright © 2020-2022,
-          <a href="https://www.algodynamics.io" className="text-blue-800">
-            algodynamics.io
-          </a>
-        </h3>
+        <h3>Copyright © 2020-2022, Algodynamics</h3>
       </div>
     </div>
   );
