@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { languagesToMonacoId, languagesToId } from "./data/languages";
 import { algorithmsIdToTemplate, dbIdToAlgorithmId } from "./data/algorithms";
@@ -36,6 +36,19 @@ const CodeEditor = () => {
     setUserId(localStorage.getItem("userId"));
     setValue(algorithmsIdToTemplate[algorithmId]);
   }, []);
+  const editorRef = useRef(null);
+
+  const handleEditorDidMount = (editor, monaco) => {
+    editorRef.current = editor;
+    editor.getDomNode().addEventListener(
+      "paste",
+      (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+      },
+      true
+    );
+  };
 
   const onChangeText = (newValue, e) => {
     value[language] = newValue;
@@ -302,6 +315,7 @@ const CodeEditor = () => {
           theme={theme}
           value={value[language]}
           onChange={onChangeText}
+          onMount={handleEditorDidMount}
           quickSuggestions={false}
         />
 
