@@ -31,10 +31,17 @@ const QuizPage = () => {
   useEffect(() => {
     // load selected options from local storage if available
     const selectedOptions = localStorage.getItem("selectedOptions");
+    const shuffledQuiz = localStorage.getItem("shuffledQuiz");
+    if (shuffledQuiz) {
+      setQuiz(JSON.parse(shuffledQuiz));
+    } else {
+      let tempQuiz = shuffle(impQ);
+      setQuiz(tempQuiz);
+      localStorage.setItem("shuffledQuiz", JSON.stringify(tempQuiz));
+    }
     if (selectedOptions) {
       setSelectedOptions(JSON.parse(selectedOptions));
     }
-    setQuiz(shuffle(impQ));
   }, []);
 
   const handleAnswerOption = (currentQuestionId, answer) => {
