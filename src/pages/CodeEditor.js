@@ -169,6 +169,9 @@ const CodeEditor = () => {
     );
   };
 
+  const onClickNext = () => {
+    // to be implemented
+  };
   const onClickTest = async (e) => {
     Swal.fire({
       title: "Enter Custom Input",
@@ -283,6 +286,13 @@ const CodeEditor = () => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
             >
               Submit
+            </button>
+            <button
+              onClick={onClickNext}
+              disabled={disabledS}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
+            >
+              Next
             </button>
           </div>
         </div>
