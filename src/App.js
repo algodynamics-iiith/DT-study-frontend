@@ -30,8 +30,7 @@ const App = ({ element }) => {
         let desiredPath = JSON.parse(localStorage.getItem("path"))[
           parseInt(localStorage.getItem("current"))
         ];
-        // Replace it with the roll number field
-        setRollNo(response.data.id);
+        setRollNo(response.data.rollno);
         if (window.location.pathname.slice(18) !== desiredPath) {
           window.location.href = "." + desiredPath;
         }
