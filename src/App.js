@@ -21,7 +21,7 @@ const App = ({ element }) => {
     } else {
       if (window.location.pathname.slice(18) !== "/home") {
         //Add swal and absolute address
-        window.location.href = process.env.PUBLIC_URL + "home";
+        window.location.href = process.env.PUBLIC_URL + "/home";
       }
     }
 

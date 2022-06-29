@@ -19,8 +19,9 @@ export const quiz = {
       ],
       type: "single",
       correctAnswer: `<img src='${q11}'/>`,
-      score: 10,
+      score: 4,
       qid: 1,
+      negScore: 1,
     },
     {
       question:
@@ -28,8 +29,9 @@ export const quiz = {
       answers: ["2i+1,2i+2", "2i+1,2i+4", "3i,3i+1", "4i+1,4i+2"],
       type: "single",
       correctAnswer: "2i+1,2i+2",
-      score: 10,
+      score: 4,
       qid: 2,
+      negScore: 1,
     },
     {
       question:
@@ -37,8 +39,9 @@ export const quiz = {
       answers: ["100", "1", "25", "4"],
       type: "single",
       correctAnswer: "100",
-      score: 10,
+      score: 4,
       qid: 3,
+      negScore: 1,
     },
   ],
   1: [
@@ -47,8 +50,9 @@ export const quiz = {
       answers: ["4", "9", "100", "2"],
       type: "single",
       correctAnswer: "4",
-      score: 10,
+      score: 4,
       qid: 4,
+      negScore: 1,
     },
     {
       question: `How will you convert the given Complete Binary Tree into Max Heap? <img src='${q5}'/>`,
@@ -60,16 +64,18 @@ export const quiz = {
       ],
       type: "single",
       correctAnswer: "swapping node 1,3",
-      score: 10,
+      score: 4,
       qid: 5,
+      negScore: 1,
     },
     {
       question: `How many swaps are needed to convert given complete binary tree to Max Heap? <img src='${q6}'/>`,
       answers: ["2", "0", "1", "3"],
       type: "single",
       correctAnswer: "2",
-      score: 10,
+      score: 4,
       qid: 6,
+      negScore: 1,
     },
   ],
   2: [
@@ -78,8 +84,9 @@ export const quiz = {
       answers: ["2,1,3", "1,2,3", "2,3,1", "1,3,2"],
       type: "single",
       correctAnswer: "2,1,3",
-      score: 10,
+      score: 4,
       qid: 7,
+      negScore: 1,
     },
   ],
 };
