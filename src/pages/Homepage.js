@@ -137,7 +137,12 @@ const Homepage = () => {
         <p className="py-3">
           Please enter the User-id in the following box for consent,
         </p>
-        <button onClick={onClickAgree}>Agree</button>
+        <button
+          onClick={onClickAgree}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
+        >
+          Agree
+        </button>
       </div>
     </div>
   );

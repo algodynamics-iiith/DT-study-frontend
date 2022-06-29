@@ -184,15 +184,27 @@ const CodeEditor = () => {
 
   const onClickNext = () => {
     // to be implemented
-    let current = parseInt(localStorage.getItem("current"));
-    current++;
-    localStorage.setItem("current", current);
-    let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
-    if (current !== 2) {
-      window.location.href = "." + desiredPath;
-    } else {
-      window.location.href = desiredPath;
-    }
+    Swal.fire({
+      title: "Are you sure you want to submit?",
+      text: "You would not be able to go back!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      backdrop: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let current = parseInt(localStorage.getItem("current"));
+        current++;
+        localStorage.setItem("current", current);
+        let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
+        if (current !== 2) {
+          window.location.href = "." + desiredPath;
+        } else {
+          window.location.href = desiredPath;
+        }
+      }
+    });
   };
   const onClickTest = async (e) => {
     Swal.fire({

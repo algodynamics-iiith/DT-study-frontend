@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { quiz as impQ } from "./quiz_templates/quizExampleDB";
+import Swal from "sweetalert2";
 
 const QuizPage = () => {
   // const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -94,51 +95,64 @@ const QuizPage = () => {
   };
 
   const handleSubmitButton = () => {
-    console.log("Submit Button Clicked");
-    console.log(selectedOptions);
-    let newScore = 0;
-    for (let j in quiz) {
-      for (let i = 0; i < quiz[j].length; i++) {
-        if (quiz[j][i].type === "single") {
-          if (
-            selectedOptions[quiz[j][i].qid]?.answerByUser ===
-            quiz[j][i].correctAnswer
-          ) {
-            newScore += quiz[j][i].score;
-          }
-        } else {
-          console.log(quiz[j][i].qid);
-          // For each answer in the correct answers, check if it is in the selected options
-          for (let answer in selectedOptions[quiz[j][i].qid]?.answerByUser) {
-            if (
-              quiz[j][i].correctAnswers.includes(
-                selectedOptions[quiz[j][i].qid]?.answerByUser[answer]
-              )
-            ) {
-              newScore += quiz[j][i].score;
+    Swal.fire({
+      title: "Are you sure you want to submit?",
+      text: "You would not be able to go back!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      backdrop: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("Submit Button Clicked");
+        console.log(selectedOptions);
+        let newScore = 0;
+        for (let j in quiz) {
+          for (let i = 0; i < quiz[j].length; i++) {
+            if (quiz[j][i].type === "single") {
+              if (
+                selectedOptions[quiz[j][i].qid]?.answerByUser ===
+                quiz[j][i].correctAnswer
+              ) {
+                newScore += quiz[j][i].score;
+              }
             } else {
-              newScore -= quiz[j][i].negScore;
+              console.log(quiz[j][i].qid);
+              // For each answer in the correct answers, check if it is in the selected options
+              for (let answer in selectedOptions[quiz[j][i].qid]
+                ?.answerByUser) {
+                if (
+                  quiz[j][i].correctAnswers.includes(
+                    selectedOptions[quiz[j][i].qid]?.answerByUser[answer]
+                  )
+                ) {
+                  newScore += quiz[j][i].score;
+                } else {
+                  newScore -= quiz[j][i].negScore;
+                }
+              }
             }
           }
         }
-      }
-    }
-    setScore(newScore);
-    // console.log(selectedOptions);
-    // console.log(newScore);
-    console.log(score);
-    // setShowScore(true);
+        setScore(newScore);
+        // console.log(selectedOptions);
+        // console.log(newScore);
+        console.log(score);
+        // setShowScore(true);
 
-    //Redirect to next page
-    let current = parseInt(localStorage.getItem("current"));
-    current++;
-    localStorage.setItem("current", current);
-    let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
-    if (current !== 2) {
-      window.location.href = "." + desiredPath;
-    } else {
-      window.location.href = desiredPath;
-    }
+        //Redirect to next page
+        let current = parseInt(localStorage.getItem("current"));
+        current++;
+        localStorage.setItem("current", current);
+        let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
+        if (current !== 2) {
+          window.location.href = "." + desiredPath;
+        } else {
+          window.location.href = desiredPath;
+        }
+      }
+    });
   };
 
   // Create a list of questions render below each other
