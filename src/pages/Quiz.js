@@ -4,6 +4,16 @@ import { quiz as bubbleQ } from "./quiz_templates/bubbleQuiz";
 import { dbIdToAlgorithmId } from "./data/algorithms";
 import Swal from "sweetalert2";
 import { quizInstructions } from "./quiz_templates/quizInstructions";
+import client from "./api";
+
+const swalError = (message) => {
+  Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: message,
+    footer: "Please try again.",
+  });
+};
 
 const QuizPage = () => {
   // const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -122,8 +132,8 @@ const QuizPage = () => {
       allowOutsideClick: () => !Swal.isLoading(),
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("Submit Button Clicked");
-        console.log(JSON.stringify(selectedOptions));
+        // console.log("Submit Button Clicked");
+        // console.log(JSON.stringify(selectedOptions));
         let newScore = 0;
         for (let j in quiz) {
           for (let i = 0; i < quiz[j].length; i++) {
@@ -135,7 +145,7 @@ const QuizPage = () => {
                 newScore += quiz[j][i].score;
               }
             } else {
-              console.log(quiz[j][i].qid);
+              // console.log(quiz[j][i].qid);
               // For each answer in the correct answers, check if it is in the selected options
               for (let answer in selectedOptions[quiz[j][i].qid]
                 ?.answerByUser) {
@@ -153,20 +163,35 @@ const QuizPage = () => {
           }
         }
         // console.log(selectedOptions);
-        console.log(newScore);
+
+        client
+          .post(
+            "/submitQuiz",
+            JSON.stringify({
+              id: userId,
+              score: newScore,
+              responses: selectedOptions,
+            })
+          )
+          .then((response) => {
+            // console.log(newScore);
+            //Redirect to next page
+
+            let current = parseInt(localStorage.getItem("current"));
+            current++;
+            localStorage.setItem("current", current);
+            let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
+            if (current !== 2) {
+              window.location.href = "." + desiredPath;
+            } else {
+              window.location.href = desiredPath;
+            }
+          })
+          .catch((error) => {
+            swalError(error);
+          });
 
         // setShowScore(true);
-
-        //Redirect to next page
-        // let current = parseInt(localStorage.getItem("current"));
-        // current++;
-        // localStorage.setItem("current", current);
-        // let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
-        // if (current !== 2) {
-        //   window.location.href = "." + desiredPath;
-        // } else {
-        //   window.location.href = desiredPath;
-        // }
       }
     });
   };
@@ -249,18 +274,20 @@ const QuizPage = () => {
   return (
     // add scroll verticaly to the page
     <div className="flex flex-col w-screen px-5 h-screen bg-[#1A1A1A] overflow-y-auto">
-      <h1 className="text-3xl text-white item-start w-full">Quiz</h1>
+      <h1 className="text-3xl text-white item-start w-full text-center">
+        Quiz
+      </h1>
       {/* Display page number */}
       <div className="flex flex-col items-center w-full">
         <h4 className="mt-10 text-xl text-white/60">
           Page {page + 1} of {Object.keys(quiz).length}
         </h4>
       </div>
-      <div>
-        <ol>
-          {Object.keys(quizInstructions[algorithmId]).map((l, i) => (
-            <li key={i}>{i}</li>
-          ))}
+      <div className="text-white text-2xl">
+        <ol className="list-inside list-decimal">
+          {quizInstructions[algorithmId].map((l, i) => {
+            return <li key={i}>{l}</li>;
+          })}
         </ol>
       </div>
       {/* {showScore ? (
