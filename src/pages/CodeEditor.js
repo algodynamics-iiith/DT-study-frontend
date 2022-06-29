@@ -31,10 +31,15 @@ const CodeEditor = () => {
 
   useEffect(() => {
     let algorithmId = localStorage.getItem("algorithmId");
+    const temp_code = localStorage.getItem("code");
     algorithmId = dbIdToAlgorithmId[algorithmId];
     setAlgorithmId(algorithmId);
     setUserId(localStorage.getItem("userId"));
-    setValue(algorithmsIdToTemplate[algorithmId]);
+    if (temp_code !== null) {
+      setValue(JSON.parse(temp_code));
+    } else {
+      setValue(algorithmsIdToTemplate[algorithmId]);
+    }
   }, []);
   const editorRef = useRef(null);
 
@@ -124,6 +129,7 @@ const CodeEditor = () => {
     inputs,
     outputs
   ) => {
+    localStorage.setItem("code", JSON.stringify(value));
     disabled(true);
     setOutput("");
 
