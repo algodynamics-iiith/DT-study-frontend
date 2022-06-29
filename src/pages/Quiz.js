@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { quiz as impQ } from "./quiz_templates/heapQuiz";
+import { quiz as heapQ } from "./quiz_templates/heapQuiz";
+import { quiz as bubbleQ } from "./quiz_templates/bubbleQuiz";
+import { dbIdToAlgorithmId } from "./data/algorithms";
 import Swal from "sweetalert2";
 
 const QuizPage = () => {
@@ -9,7 +11,10 @@ const QuizPage = () => {
   // const [previous, showPrevious] = useState(false);
   const showPrevious = false;
   // const [showScore, setShowScore] = useState(false);
-  const [quiz, setQuiz] = useState(impQ);
+  const [quiz, setQuiz] = useState(bubbleQ);
+
+  const [algorithmId, setAlgorithmId] = useState(1);
+  const [userId, setUserId] = useState(null);
 
   const shuffle = (array) => {
     let currentIndex = array.length,
@@ -36,17 +41,29 @@ const QuizPage = () => {
     const selectedOptions = localStorage.getItem("selectedOptions");
     const shuffledQuiz = localStorage.getItem("shuffledQuiz");
     const currentPage = localStorage.getItem("currentQuizPage");
+    let algorithmId = localStorage.getItem("algorithmId");
+    algorithmId = dbIdToAlgorithmId[algorithmId];
+    setAlgorithmId(algorithmId);
+    setUserId(localStorage.getItem("userId"));
     if (shuffledQuiz) {
       setQuiz(JSON.parse(shuffledQuiz));
     } else {
-      for (let i in impQ) {
-        impQ[i] = shuffle(impQ[i]);
+      if (algorithmId === 1) {
+        for (let i in bubbleQ) {
+          bubbleQ[i] = shuffle(bubbleQ[i]);
+        }
+        setQuiz(bubbleQ);
+        localStorage.setItem("shuffledQuiz", JSON.stringify(bubbleQ));
+      } else {
+        for (let i in heapQ) {
+          heapQ[i] = shuffle(heapQ[i]);
+        }
+        setQuiz(heapQ);
+        localStorage.setItem("shuffledQuiz", JSON.stringify(heapQ));
       }
-      setQuiz(impQ);
 
       // let tempQuiz = shuffle(impQ);
       // setQuiz(tempQuiz);
-      localStorage.setItem("shuffledQuiz", JSON.stringify(impQ));
     }
     if (currentPage) {
       setPage(parseInt(currentPage));
@@ -105,7 +122,7 @@ const QuizPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log("Submit Button Clicked");
-        console.log(selectedOptions);
+        console.log(JSON.stringify(selectedOptions));
         let newScore = 0;
         for (let j in quiz) {
           for (let i = 0; i < quiz[j].length; i++) {
@@ -140,15 +157,15 @@ const QuizPage = () => {
         // setShowScore(true);
 
         //Redirect to next page
-        let current = parseInt(localStorage.getItem("current"));
-        current++;
-        localStorage.setItem("current", current);
-        let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
-        if (current !== 2) {
-          window.location.href = "." + desiredPath;
-        } else {
-          window.location.href = desiredPath;
-        }
+        // let current = parseInt(localStorage.getItem("current"));
+        // current++;
+        // localStorage.setItem("current", current);
+        // let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
+        // if (current !== 2) {
+        //   window.location.href = "." + desiredPath;
+        // } else {
+        //   window.location.href = desiredPath;
+        // }
       }
     });
   };

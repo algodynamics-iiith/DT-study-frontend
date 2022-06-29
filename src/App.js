@@ -82,7 +82,7 @@ const App = ({ element }) => {
       .catch((error) => {
         if (window.location.pathname.slice(18) !== "/home") {
           //Add swal and absolute address
-          window.location.href = process.env.PUBLIC_URL + "home";
+          window.location.href = process.env.PUBLIC_URL + "/home";
         }
       });
   };
