@@ -154,7 +154,7 @@ const App = ({ element }) => {
           <button onClick={toggleFullScreen} className="px-2">
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
           </button>
-          <p>Full Screen: {isFullScreen ? "Yes" : "No"}</p>
+          {/* <p>Full Screen: {isFullScreen ? "Yes" : "No"}</p> */}
           {/* <button onClick={checkFullScreen}>check</button> */}
         </div>
       </div>
