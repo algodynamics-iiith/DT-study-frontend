@@ -79,13 +79,9 @@ const Homepage = () => {
         <h1 className="text-2xl">Consent Form </h1>
         <h2 className="text-xl">Purpose of the research </h2>
         <p className="py-3">
-          This survey is part of a research study conducted at IIIT Hyderabad
+          This activity is part of a research study conducted at IIIT Hyderabad
           for algodynamics. The aim of the research is to
-          <strong>
-            &nbsp; investigate interactive exams for testing understanding of
-            algorithms.{" "}
-          </strong>
-          .
+          <strong>&nbsp; explore understanding of the algorithm. </strong>.
         </p>
         <h2 className="text-xl">Your Role in the research</h2>
         <p className="py-3">
@@ -94,21 +90,19 @@ const Homepage = () => {
           process is divided into following sections
         </p>
         <ol className="list-decimal list-inside text-md text-blue-600 p-4 ">
-          <li>An interactive game like exam</li>
+          <li>Interactive game like exam</li>
           <li>Coding Test</li>
-          <li>Debugging Test</li>
-          <li>An MCQ/Short Answer Quiz</li>
+          <li>MCQ Quiz</li>
         </ol>
         <h2 className="text-xl">General Instructions</h2>
         <p className="py-3">
           Follow the instructions as given in each section. After finishing each
           section click the{" "}
           <strong>
-            <code> &nbsp; NEXT &nbsp; </code>
+            <code> &nbsp; NEXT &nbsp; </code> /
+            <code> &nbsp; SUBMIT &nbsp; </code>
           </strong>
-          button present on top right corner to move to the next section. Try
-          not to refresh the page. Please answer all the following questions and
-          make sure you are in a comfortable environment with no distractions
+          button to move to the next section. Try not to refresh the page.
         </p>
         <h2 className="text-xl">Time Required</h2>
         <p className="py-3">The whole process might take around 1 hour.</p>
@@ -124,15 +118,13 @@ const Homepage = () => {
           and will be used for research purposes only. The research may result
           in scientific publications, conference and seminar presentations, and
           teaching. No Direct identifiers (ex: name, address, photo, video) will
-          be collected as part of the survey. You need to provide the email-id
-          for claiming the incentives. The{" "}
-          <strong>email ids will be hashed for maintaining anonymity</strong>{" "}
-          and will not be used for any other purpose.
+          be collected as part of the survey.
         </p>
         <h2 className="text-xl">Points of contact</h2>
         <ol className="list-disc list-inside py-3">
           <li>Archit Goyal, IIIT-H</li>
           <li>Prince Varshney, IIIT-H</li>
+          <li>VJS Pranavasri, IIIT-H</li>
         </ol>
         <p className="py-3">
           Please enter the User-id in the following box for consent,
