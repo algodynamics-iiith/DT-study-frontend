@@ -27,12 +27,20 @@ const App = ({ element }) => {
     await client
       .get(final)
       .then((response) => {
-        let desiredPath = JSON.parse(localStorage.getItem("path"))[
-          parseInt(localStorage.getItem("current"))
-        ];
+        let current = parseInt(localStorage.getItem("current"));
+        let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
         setRollNo(response.data.rollno);
-        if (window.location.pathname.slice(18) !== desiredPath) {
+        if (
+          current !== 2 &&
+          window.location.pathname.slice(18) !== desiredPath
+        ) {
           window.location.href = "." + desiredPath;
+        }
+        if (
+          current === 2 &&
+          window.location.pathname.slice(18) !== desiredPath
+        ) {
+          window.location.href = desiredPath;
         }
       })
       .catch((error) => {

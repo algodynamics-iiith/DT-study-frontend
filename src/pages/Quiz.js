@@ -110,6 +110,16 @@ const QuizPage = () => {
     }
     setScore(newScore);
     setShowScore(true);
+    //Redirect to next page
+    let current = parseInt(localStorage.getItem("current"));
+    current++;
+    localStorage.setItem("current", current);
+    let desiredPath = JSON.parse(localStorage.getItem("path"))[current];
+    if (current !== 2) {
+      window.location.href = "." + desiredPath;
+    } else {
+      window.location.href = desiredPath;
+    }
   };
 
   // Create a list of questions render below each other

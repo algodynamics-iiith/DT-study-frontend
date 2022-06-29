@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import client from "./api";
-import paths from "./data/paths";
+import { dbIdToAlgorithmId } from "./data/algorithms";
+import { paths, drvingTestUrl } from "./data/paths";
 
 const Homepage = () => {
   // Restructure
@@ -36,7 +37,10 @@ const Homepage = () => {
           title: "Redirecting!",
         }).then((result) => {
           localStorage.setItem("current", 0);
-          localStorage.setItem("path", JSON.stringify(paths[algorithmId % 2]));
+          let algorithm = dbIdToAlgorithmId[algorithmId];
+          let path = [...paths[algorithmId % 2], drvingTestUrl[algorithm] + id];
+          console.log(path);
+          localStorage.setItem("path", JSON.stringify(path));
           window.location.href =
             "." + JSON.parse(localStorage.getItem("path"))[0];
         });
