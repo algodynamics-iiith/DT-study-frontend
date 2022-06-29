@@ -130,7 +130,10 @@ const QuizPage = () => {
           <h4 className="mt-10 text-xl text-white/60">
             Question {index_q + 1} of {quiz.length}
           </h4>
-          <div className="mt-4 text-2xl text-white">{qObj.question}</div>
+          <div className="mt-4 text-2xl text-white">
+            <div dangerouslySetInnerHTML={{ __html: qObj.question }} />
+            {/* {qObj.question} */}
+          </div>
         </div>
         <div className="flex flex-col w-full">
           {qObj.type === "single"
@@ -155,7 +158,9 @@ const QuizPage = () => {
                     onClick={(e) => handleAnswerOption(qObj.qid, answer)}
                     className="w-6 h-6 bg-black"
                   />
-                  <p className="ml-6 text-white">{answer}</p>
+                  <div className="ml-6 text-white">
+                    <div dangerouslySetInnerHTML={{ __html: answer }} />
+                  </div>
                 </div>
               ))
             : qObj.answers.map((answer, index) => (
@@ -182,7 +187,9 @@ const QuizPage = () => {
                     }
                     className="w-6 h-6 bg-black"
                   />
-                  <p className="ml-6 text-white">{answer}</p>
+                  <div className="ml-6 text-white">
+                    <div dangerouslySetInnerHTML={{ __html: answer }} />
+                  </div>
                 </div>
               ))}
         </div>

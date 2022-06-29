@@ -33,4 +33,17 @@ export const quiz = [
     correctAnswer: "Yes",
     qid: 4,
   },
+  {
+    question:
+      "This is question <img src='https://upload.wikimedia.org/wikipedia/commons/6/6d/Times_radio.png' />",
+    type: "single",
+    answers: [
+      "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Yes_._logo.svg/1200px-Yes_._logo.svg.png' />",
+      "No",
+      "It is not in my Head",
+    ],
+    score: 10,
+    correctAnswer: "Yes",
+    qid: 5,
+  },
 ];
