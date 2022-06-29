@@ -15,12 +15,13 @@ const App = ({ element }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   useEffect(() => {
+    console.log(process.env.PUBLIC_URL);
     if (localStorage.getItem("userId") != null) {
       getAlgorithm(localStorage.getItem("userId"));
     } else {
       if (window.location.pathname.slice(18) !== "/home") {
         //Add swal and absolute address
-        window.location.href = "./home";
+        window.location.href = process.env.PUBLIC_URL + "home";
       }
     }
 
@@ -68,7 +69,8 @@ const App = ({ element }) => {
           current !== 2 &&
           window.location.pathname.slice(18) !== desiredPath
         ) {
-          window.location.href = "." + desiredPath;
+          // remove '/' from beginning of path
+          window.location.href = process.env.PUBLIC_URL + desiredPath;
         }
         if (
           current === 2 &&
@@ -80,7 +82,7 @@ const App = ({ element }) => {
       .catch((error) => {
         if (window.location.pathname.slice(18) !== "/home") {
           //Add swal and absolute address
-          window.location.href = "./home";
+          window.location.href = process.env.PUBLIC_URL + "home";
         }
       });
   };
@@ -159,11 +161,13 @@ const App = ({ element }) => {
       {/* <div className="flex-grow flex overflow-hidden"> */}
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/home" element={<Homepage />} />
-          <Route path="/code" element={<CodeEditor />} />
-          <Route path="/debug" element={<CodeDebugger />} />
-          <Route path="/quiz" element={<QuizPage />} />
+          {/* <Route path="/" element={<Homepage />} /> */}
+          <Route exact path="/home" element={<Homepage />} />
+          <Route exact path="/code" element={<CodeEditor />} />
+          <Route exact path="/debug" element={<CodeDebugger />} />
+          <Route exact path="/quiz" element={<QuizPage />} />
+          {/* Error for all other paths */}
+          <Route element={() => <div>Hello World</div>} />
           {/* <Route path="teams" element={<Teams />}>
             <Route path=":teamId" element={<Team />} />
             <Route path="new" element={<NewTeamForm />} />
