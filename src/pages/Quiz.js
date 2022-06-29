@@ -119,8 +119,20 @@ const QuizPage = () => {
   // };
 
   const handleNextButton = () => {
-    setPage(page + 1);
-    localStorage.setItem("currentQuizPage", page + 1);
+    Swal.fire({
+      title: "Are you sure you want to go to next page?",
+      text: "You would not be able to go back!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Next Page",
+      backdrop: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setPage(page + 1);
+        localStorage.setItem("currentQuizPage", page + 1);
+      }
+    });
   };
 
   const handleSubmitButton = () => {
