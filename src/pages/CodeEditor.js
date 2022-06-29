@@ -129,7 +129,7 @@ const CodeEditor = () => {
     inputs,
     outputs
   ) => {
-    localStorage.setItem("code", JSON.stringify(value));
+    localStorage.setItem("code", value);
     disabled(true);
     setOutput("");
 
