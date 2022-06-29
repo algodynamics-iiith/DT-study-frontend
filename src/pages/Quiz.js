@@ -85,7 +85,9 @@ const QuizPage = () => {
   }, []);
 
   const handleAnswerOption = (currentQuestionId, answer) => {
-    selectedOptions[currentQuestionId] = { answerByUser: answer };
+    if (selectedOptions[currentQuestionId]?.answerByUser === answer)
+      selectedOptions[currentQuestionId] = {};
+    else selectedOptions[currentQuestionId] = { answerByUser: answer };
     setSelectedOptions({ ...selectedOptions });
     localStorage.setItem("selectedOptions", JSON.stringify(selectedOptions));
     // console.log(selectedOptions);
@@ -143,7 +145,7 @@ const QuizPage = () => {
                 quiz[j][i].correctAnswer
               ) {
                 newScore += quiz[j][i].score;
-              } else if (selectedOptions[quiz[j][i].qid]) {
+              } else if (selectedOptions[quiz[j][i].qid]?.answerByUser) {
                 newScore -= quiz[j][i].negScore;
               }
             } else {
