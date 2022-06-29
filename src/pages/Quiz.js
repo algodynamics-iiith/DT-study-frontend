@@ -3,6 +3,7 @@ import { quiz as heapQ } from "./quiz_templates/heapQuiz";
 import { quiz as bubbleQ } from "./quiz_templates/bubbleQuiz";
 import { dbIdToAlgorithmId } from "./data/algorithms";
 import Swal from "sweetalert2";
+import { quizInstructions } from "./quiz_templates/quizInstructions";
 
 const QuizPage = () => {
   // const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -254,6 +255,13 @@ const QuizPage = () => {
         <h4 className="mt-10 text-xl text-white/60">
           Page {page + 1} of {Object.keys(quiz).length}
         </h4>
+      </div>
+      <div>
+        <ol>
+          {Object.keys(quizInstructions[algorithmId]).map((l, i) => (
+            <li key={i}>{i}</li>
+          ))}
+        </ol>
       </div>
       {/* {showScore ? (
         <h1 className="text-3xl font-semibold text-center text-white">

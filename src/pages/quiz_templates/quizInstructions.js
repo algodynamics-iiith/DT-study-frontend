@@ -1,4 +1,4 @@
-export const quizInstructinons = {
+export const quizInstructions = {
   2: [
     "All questions have single correct answers.",
     "Scoring: -1 for wrong answer, +4 for correct answer",
