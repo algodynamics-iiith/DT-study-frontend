@@ -143,6 +143,8 @@ const QuizPage = () => {
                 quiz[j][i].correctAnswer
               ) {
                 newScore += quiz[j][i].score;
+              } else {
+                newScore -= quiz[j][i].negScore;
               }
             } else {
               // console.log(quiz[j][i].qid);
@@ -162,7 +164,8 @@ const QuizPage = () => {
             }
           }
         }
-        // console.log(selectedOptions);
+        console.log(selectedOptions);
+        console.log(newScore);
 
         client
           .post(
