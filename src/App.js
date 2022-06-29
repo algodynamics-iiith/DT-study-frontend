@@ -39,21 +39,21 @@ const App = ({ element }) => {
         else setIsFullScreen(false);
       })
     );
-    return () => {
-      // Remove full screen event listener
-      [
-        "fullscreenchange",
-        "webkitfullscreenchange",
-        "mozfullscreenchange",
-      ].forEach((fchange) =>
-        document.removeEventListener(fchange, () => {
-          if (document.fullscreenElement) setIsFullScreen(true);
-          else if (document.mozFullScreenElement) setIsFullScreen(true);
-          else if (document.webkitFullscreenElement) setIsFullScreen(true);
-          else setIsFullScreen(false);
-        })
-      );
-    };
+    // return () => {
+    //   // Remove full screen event listener
+    //   [
+    //     "fullscreenchange",
+    //     "webkitfullscreenchange",
+    //     "mozfullscreenchange",
+    //   ].forEach((fchange) =>
+    //     document.removeEventListener(fchange, () => {
+    //       if (document.fullscreenElement) setIsFullScreen(true);
+    //       else if (document.mozFullScreenElement) setIsFullScreen(true);
+    //       else if (document.webkitFullscreenElement) setIsFullScreen(true);
+    //       else setIsFullScreen(false);
+    //     })
+    //   );
+    // };
   }, []);
 
   const getAlgorithm = async (input) => {
@@ -97,7 +97,7 @@ const App = ({ element }) => {
         document.msExitFullscreen();
       }
     } else {
-      let elem = document.getElementById("root");
+      let elem = document.documentElement;
       if (elem.requestFullscreen) {
         elem.requestFullscreen({ navigationUI: "hide" });
       } else if (elem.webkitRequestFullscreen) {
@@ -122,7 +122,7 @@ const App = ({ element }) => {
   //   }, 100);
   // });
 
-  if (!isFullScreen)
+  if (!isFullScreen) {
     Swal.fire({
       title: "Full Screen Mode",
       text: "This test requires you to be in full screen mode",
@@ -142,7 +142,7 @@ const App = ({ element }) => {
         console.log("clicked x");
       }
     });
-
+  }
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <div className="bg-gray-800 flex justify-between py-4 px-2 text-md text-gray-100 font-bold">
@@ -152,7 +152,7 @@ const App = ({ element }) => {
           <button onClick={toggleFullScreen} className="px-2">
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
           </button>
-          <p>Full Scree: {isFullScreen ? "Yes" : "No"}</p>
+          <p>Full Screen: {isFullScreen ? "Yes" : "No"}</p>
           {/* <button onClick={checkFullScreen}>check</button> */}
         </div>
       </div>
