@@ -4,8 +4,11 @@ import { quiz as impQ } from "./quiz_templates/quizExampleDB";
 const QuizPage = () => {
   // const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const [page, setPage] = useState(0);
   const [score, setScore] = useState(0);
-  const [showScore, setShowScore] = useState(false);
+  // const [previous, showPrevious] = useState(false);
+  const showPrevious = false;
+  // const [showScore, setShowScore] = useState(false);
   const [quiz, setQuiz] = useState(impQ);
 
   const shuffle = (array) => {
@@ -32,12 +35,21 @@ const QuizPage = () => {
     // load selected options from local storage if available
     const selectedOptions = localStorage.getItem("selectedOptions");
     const shuffledQuiz = localStorage.getItem("shuffledQuiz");
+    const currentPage = localStorage.getItem("currentQuizPage");
     if (shuffledQuiz) {
       setQuiz(JSON.parse(shuffledQuiz));
     } else {
-      let tempQuiz = shuffle(impQ);
-      setQuiz(tempQuiz);
-      localStorage.setItem("shuffledQuiz", JSON.stringify(tempQuiz));
+      for (let i in impQ) {
+        impQ[i] = shuffle(impQ[i]);
+      }
+      setQuiz(impQ);
+
+      // let tempQuiz = shuffle(impQ);
+      // setQuiz(tempQuiz);
+      localStorage.setItem("shuffledQuiz", JSON.stringify(impQ));
+    }
+    if (currentPage) {
+      setPage(parseInt(currentPage));
     }
     if (selectedOptions) {
       setSelectedOptions(JSON.parse(selectedOptions));
@@ -76,40 +88,44 @@ const QuizPage = () => {
   //   prevQues >= 0 && setCurrentQuestion(prevQues);
   // };
 
-  // const handleNext = () => {
-  //   const nextQues = currentQuestion + 1;
-  //   nextQues < quiz.length && setCurrentQuestion(nextQues);
-  // };
+  const handleNextButton = () => {
+    setPage(page + 1);
+    localStorage.setItem("currentQuizPage", page + 1);
+  };
 
   const handleSubmitButton = () => {
     console.log("Submit Button Clicked");
     console.log(selectedOptions);
     let newScore = 0;
-    for (let i = 0; i < quiz.length; i++) {
-      if (quiz[i].type === "single") {
-        if (
-          selectedOptions[quiz[i].qid]?.answerByUser === quiz[i].correctAnswer
-        ) {
-          newScore += quiz[i].score;
-        }
-      } else {
-        console.log(quiz[i].qid);
-        // For each answer in the correct answers, check if it is in the selected options
-        for (let answer in selectedOptions[quiz[i].qid]?.answerByUser) {
+    for (let j in quiz) {
+      for (let i = 0; i < quiz[j].length; i++) {
+        if (quiz[j][i].type === "single") {
           if (
-            quiz[i].correctAnswers.includes(
-              selectedOptions[quiz[i].qid]?.answerByUser[answer]
-            )
+            selectedOptions[quiz[j][i].qid]?.answerByUser ===
+            quiz[j][i].correctAnswer
           ) {
-            newScore += quiz[i].score;
-          } else {
-            newScore -= quiz[i].negScore;
+            newScore += quiz[j][i].score;
+          }
+        } else {
+          console.log(quiz[j][i].qid);
+          // For each answer in the correct answers, check if it is in the selected options
+          for (let answer in selectedOptions[quiz[j][i].qid]?.answerByUser) {
+            if (
+              quiz[i].correctAnswers.includes(
+                selectedOptions[quiz[j][i].qid]?.answerByUser[answer]
+              )
+            ) {
+              newScore += quiz[j][i].score;
+            } else {
+              newScore -= quiz[j][i].negScore;
+            }
           }
         }
       }
     }
     setScore(newScore);
-    setShowScore(true);
+    console.log(score);
+    // setShowScore(true);
     //Redirect to next page
     let current = parseInt(localStorage.getItem("current"));
     current++;
@@ -123,12 +139,12 @@ const QuizPage = () => {
   };
 
   // Create a list of questions render below each other
-  const questions = quiz.map((qObj, index_q) => {
+  const questions = quiz[page].map((qObj, index_q) => {
     return (
       <div key={"qq" + qObj.qid}>
         <div className="flex flex-col items-start w-full">
           <h4 className="mt-10 text-xl text-white/60">
-            Question {index_q + 1} of {quiz.length}
+            Question {index_q + 1} of {quiz[page].length}
           </h4>
           <div className="mt-4 text-2xl text-white">
             <div dangerouslySetInnerHTML={{ __html: qObj.question }} />
@@ -201,24 +217,45 @@ const QuizPage = () => {
     // add scroll verticaly to the page
     <div className="flex flex-col w-screen px-5 h-screen bg-[#1A1A1A] overflow-y-auto">
       <h1 className="text-3xl text-white item-start w-full">Quiz</h1>
-      {showScore ? (
+      {/* Display page number */}
+      <div className="flex flex-col items-center w-full">
+        <h4 className="mt-10 text-xl text-white/60">
+          Page {page + 1} of {Object.keys(quiz).length}
+        </h4>
+      </div>
+      {/* {showScore ? (
         <h1 className="text-3xl font-semibold text-center text-white">
           You scored {score}
         </h1>
-      ) : (
-        <>
-          {questions}
-          <div className="flex justify-between w-full mt-4 text-white">
+      ) : ( */}
+      <>
+        {questions}
+        <div className="flex justify-between w-full mt-4 text-white">
+          {page > 0 && showPrevious ? (
             <button
-              onClick={handleSubmitButton}
               className="w-[49%] py-3 bg-indigo-600 rounded-lg margin"
+              onClick={(e) => setPage(page - 1)}
             >
-              Submit
+              Previous
             </button>
-          </div>
-          <br />
-        </>
-      )}
+          ) : (
+            <></>
+          )}
+
+          <button
+            onClick={
+              page === Object.keys(quiz).length - 1
+                ? handleSubmitButton
+                : handleNextButton
+            }
+            className="w-[49%] py-3 bg-indigo-600 rounded-lg margin"
+          >
+            {page === Object.keys(quiz).length - 1 ? "Submit" : "Next"}
+          </button>
+        </div>
+        <br />
+      </>
+      {/* )} */}
     </div>
   );
 };
