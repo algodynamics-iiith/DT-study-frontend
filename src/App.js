@@ -8,9 +8,12 @@ import { useEffect, useState } from "react";
 import client from "./pages/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightAndDownLeftFromCenter } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 const App = ({ element }) => {
   let [rollNo, setRollNo] = useState(null);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("userId") != null) {
       getAlgorithm(localStorage.getItem("userId"));
@@ -20,6 +23,37 @@ const App = ({ element }) => {
         window.location.href = "./home";
       }
     }
+
+    // Add full screen event listener
+    [
+      "fullscreenchange",
+      "webkitfullscreenchange",
+      "mozfullscreenchange",
+    ].forEach((fchange) =>
+      document.addEventListener(fchange, () => {
+        // if (isFullScreen) setIsFullScreen(false);
+        // else
+        if (document.fullscreenElement) setIsFullScreen(true);
+        else if (document.mozFullScreenElement) setIsFullScreen(true);
+        else if (document.webkitFullscreenElement) setIsFullScreen(true);
+        else setIsFullScreen(false);
+      })
+    );
+    return () => {
+      // Remove full screen event listener
+      [
+        "fullscreenchange",
+        "webkitfullscreenchange",
+        "mozfullscreenchange",
+      ].forEach((fchange) =>
+        document.removeEventListener(fchange, () => {
+          if (document.fullscreenElement) setIsFullScreen(true);
+          else if (document.mozFullScreenElement) setIsFullScreen(true);
+          else if (document.webkitFullscreenElement) setIsFullScreen(true);
+          else setIsFullScreen(false);
+        })
+      );
+    };
   }, []);
 
   const getAlgorithm = async (input) => {
@@ -51,9 +85,63 @@ const App = ({ element }) => {
       });
   };
 
-  const makeFullScreen = () => {
-    console.log("FullScreen Toggle");
+  const toggleFullScreen = () => {
+    if (isFullScreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        /* Safari */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        /* IE11 */
+        document.msExitFullscreen();
+      }
+    } else {
+      let elem = document.getElementById("root");
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen({ navigationUI: "hide" });
+      } else if (elem.webkitRequestFullscreen) {
+        /* Safari */
+        elem.webkitRequestFullscreen({ navigationUI: "hide" });
+      } else if (elem.msRequestFullscreen) {
+        /* IE11 */
+        elem.msRequestFullscreen({ navigationUI: "hide" });
+      }
+    }
   };
+
+  // window.addEventListener("resize", () => {
+  //   setTimeout(() => {
+  //     if (
+  //       document.mozFullScreenElement ||
+  //       document.webkitCurrentFullScreenElement ||
+  //       document.fullscreenElement
+  //     ) {
+  //       console.log("FullScreen");
+  //     }
+  //   }, 100);
+  // });
+
+  if (!isFullScreen)
+    Swal.fire({
+      title: "Full Screen Mode",
+      text: "This test requires you to be in full screen mode",
+      icon: "info",
+      confirmButtonText: "Enter Full Screen",
+      confirmButtonColor: "#00bcd4",
+      showCloseButton: true,
+      // Add function to close button
+      showConfirmButton: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+    }).then((result) => {
+      if (result.value) {
+        toggleFullScreen();
+      } else if (result.dismiss === "close") {
+        console.log("clicked x");
+      }
+    });
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
@@ -61,9 +149,11 @@ const App = ({ element }) => {
         <h1 className="text-xl">Algodynamics Driving Test Study</h1>
         <div className="flex w-1/6 justify-end items-center">
           <h1 className="texl-lg px-4 ">{rollNo}</h1>
-          <button onClick={makeFullScreen} className="px-2">
+          <button onClick={toggleFullScreen} className="px-2">
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
           </button>
+          <p>Full Scree: {isFullScreen ? "Yes" : "No"}</p>
+          {/* <button onClick={checkFullScreen}>check</button> */}
         </div>
       </div>
       {/* <div className="flex-grow flex overflow-hidden"> */}

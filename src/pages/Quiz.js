@@ -111,7 +111,7 @@ const QuizPage = () => {
           // For each answer in the correct answers, check if it is in the selected options
           for (let answer in selectedOptions[quiz[j][i].qid]?.answerByUser) {
             if (
-              quiz[i].correctAnswers.includes(
+              quiz[j][i].correctAnswers.includes(
                 selectedOptions[quiz[j][i].qid]?.answerByUser[answer]
               )
             ) {
@@ -124,8 +124,11 @@ const QuizPage = () => {
       }
     }
     setScore(newScore);
+    // console.log(selectedOptions);
+    // console.log(newScore);
     console.log(score);
     // setShowScore(true);
+
     //Redirect to next page
     let current = parseInt(localStorage.getItem("current"));
     current++;
