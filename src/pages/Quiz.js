@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { quiz as impQ } from "./quiz_templates/quizExampleDB";
+import { quiz as impQ } from "./quiz_templates/heapQuiz";
 import Swal from "sweetalert2";
 
 const QuizPage = () => {
   // const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [page, setPage] = useState(0);
-  const [score, setScore] = useState(0);
   // const [previous, showPrevious] = useState(false);
   const showPrevious = false;
   // const [showScore, setShowScore] = useState(false);
@@ -135,10 +134,9 @@ const QuizPage = () => {
             }
           }
         }
-        setScore(newScore);
         // console.log(selectedOptions);
-        // console.log(newScore);
-        console.log(score);
+        console.log(newScore);
+
         // setShowScore(true);
 
         //Redirect to next page
