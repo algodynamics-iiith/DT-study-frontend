@@ -143,7 +143,7 @@ const QuizPage = () => {
                 quiz[j][i].correctAnswer
               ) {
                 newScore += quiz[j][i].score;
-              } else {
+              } else if (selectedOptions[quiz[j][i].qid]) {
                 newScore -= quiz[j][i].negScore;
               }
             } else {

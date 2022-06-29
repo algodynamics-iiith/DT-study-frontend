@@ -46,9 +46,9 @@ export const quiz = {
     {
       question:
         "What is the number of swaps and comparisons respectively in <strong>second</strong> pass of bubble sort for the following array [10,1,4,100,2]",
-      answers: ["3,4", "3,5", "1,1", "1,4"],
+      answers: ["1,3", "3,3", "1,0", "0,4"],
       type: "single",
-      correctAnswer: "3,4",
+      correctAnswer: "1,3",
       score: 4,
       qid: 5,
       negScore: 1,
