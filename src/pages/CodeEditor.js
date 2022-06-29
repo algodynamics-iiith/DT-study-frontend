@@ -166,7 +166,7 @@ const CodeEditor = () => {
       })
       .catch((error) => {
         setLoading(false);
-        swalError("Something went wrong!");
+        swalError("Server is busy!");
       });
     disabled(false);
   };
@@ -189,6 +189,7 @@ const CodeEditor = () => {
     Swal.fire({
       title: "Enter Custom Input",
       input: "textarea",
+      inputValue: "4\n4 3 2 1",
       inputAttributes: {
         autocapitalize: "off",
       },
@@ -225,9 +226,15 @@ const CodeEditor = () => {
       <div style={{ height: "100%" }} className="overflow-y-scroll p-4 prose">
         <h1>Problem Description</h1>
         <p>{leftPanel["Problem Description"]}</p>
-        <h1>Instructions</h1>
+        <h1>General Instructions</h1>
         <ol>
-          {leftPanel["Instructions"].map((instr, i) => (
+          {leftPanel["General Instructions"].map((instr, i) => (
+            <li key={i}>{instr}</li>
+          ))}
+        </ol>
+        <h1>Platform Instructions</h1>
+        <ol>
+          {leftPanel["Platform Instructions"].map((instr, i) => (
             <li key={i}>{instr}</li>
           ))}
         </ol>
