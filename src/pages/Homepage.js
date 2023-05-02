@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import client from "./api";
 import { dbIdToAlgorithmId } from "./data/algorithms";
-import { paths, drvingTestUrl } from "./data/paths";
+import { drvingTestUrl } from "./data/paths";
 
 const Homepage = () => {
   // Restructure
@@ -38,7 +38,7 @@ const Homepage = () => {
         }).then((result) => {
           localStorage.setItem("current", 0);
           let algorithm = dbIdToAlgorithmId[algorithmId];
-          let path = [...paths[algorithmId % 2], drvingTestUrl[algorithm] + id];
+          let path = [drvingTestUrl[algorithm] + id];
           console.log(path);
           localStorage.setItem("path", JSON.stringify(path));
           window.location.href =
@@ -55,22 +55,20 @@ const Homepage = () => {
   };
 
   const onClickAgree = async (e) => {
-    Swal.fire({
-      title: "Enter User ID",
-      input: "text",
-      inputAttributes: {
-        autocapitalize: "off",
-      },
-      showCancelButton: true,
-      confirmButtonText: "Submit",
-      showLoaderOnConfirm: true,
-      preConfirm: (input) => {
-        localStorage.setItem("userId", input);
-        getAlgorithm(input);
-      },
-      backdrop: true,
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
+    let input = "";
+    while (true) {
+      // generate a random uuid
+      const id = Math.random().toString(36).substring(2, 15);
+      // create user through endpoint
+      const res = await client.get("/createUser/" + id);
+      // if input has message "User already exists", try again
+      if (res.data.msg) continue;
+      // {"id":"DDb_9B9f9l","rollno":"12","timestamp":1683025815718,"completed":false}
+      input = res.data.id;
+      break;
+    }
+    localStorage.setItem("userId", input);
+    getAlgorithm(input);
   };
 
   return (
@@ -86,26 +84,11 @@ const Homepage = () => {
         <h2 className="text-xl">Your Role in the research</h2>
         <p className="py-3">
           You will take an interactive game like test and some traditional tests
-          about an algorithm. No special preparation is required. The whole
-          process is divided into following sections
-        </p>
-        <ol className="list-decimal list-inside text-md text-blue-600 p-4 ">
-          <li>Interactive game like exam</li>
-          <li>Coding Test</li>
-          <li>MCQ Quiz</li>
-        </ol>
-        <h2 className="text-xl">General Instructions</h2>
-        <p className="py-3">
-          Follow the instructions as given in each section. After finishing each
-          section click the{" "}
-          <strong>
-            <code> &nbsp; NEXT &nbsp; </code> /
-            <code> &nbsp; SUBMIT &nbsp; </code>
-          </strong>
-          button to move to the next section. Try not to refresh the page.
+          about an algorithm. No special preparation is required. It will be an
+          interactive game like exam{" "}
         </p>
         <h2 className="text-xl">Time Required</h2>
-        <p className="py-3">The whole process might take around 1 hour.</p>
+        <p className="py-3">The whole process might take around 30 minutes.</p>
         <h2 className="text-xl">Risks</h2>
         <p className="py-3">
           There is no risk for the participants. Participation in this survey is
@@ -122,12 +105,11 @@ const Homepage = () => {
         </p>
         <h2 className="text-xl">Points of contact</h2>
         <ol className="list-disc list-inside py-3">
-          <li>Archit Goyal, IIIT-H</li>
-          <li>Prince Varshney, IIIT-H</li>
+          <li>Nishant Sachdeva, IIIT-H</li>
           <li>VJS Pranavasri, IIIT-H</li>
         </ol>
         <p className="py-3">
-          Please enter the User-id in the following box for consent,
+          Please click on the agree button below to start the test.
         </p>
         <button
           onClick={onClickAgree}
