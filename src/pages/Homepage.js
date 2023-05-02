@@ -41,8 +41,7 @@ const Homepage = () => {
           let path = [drvingTestUrl[algorithm] + id];
           console.log(path);
           localStorage.setItem("path", JSON.stringify(path));
-          window.location.href =
-            "." + JSON.parse(localStorage.getItem("path"))[0];
+          window.location.href = JSON.parse(localStorage.getItem("path"))[0];
         });
       })
       .catch((error) => {
@@ -55,6 +54,13 @@ const Homepage = () => {
   };
 
   const onClickAgree = async (e) => {
+    // disable button
+    e.target.disabled = true;
+    // also remove hover and blue color from class
+    e.target.classList.remove("hover:bg-blue-700");
+    e.target.classList.remove("bg-blue-500");
+    // add gray color
+    e.target.classList.add("bg-gray-500");
     let input = "";
     while (true) {
       // generate a random uuid
@@ -112,6 +118,7 @@ const Homepage = () => {
           Please click on the agree button below to start the test.
         </p>
         <button
+          id="agree"
           onClick={onClickAgree}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 m-1 rounded"
         >
