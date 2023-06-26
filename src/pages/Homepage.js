@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import client from "./api";
 import { dbIdToAlgorithmId } from "./data/algorithms";
-import { drvingTestUrl } from "./data/paths";
+import { drvingTestUrl, paths } from "./data/paths";
 
 const Homepage = () => {
   // Restructure
@@ -38,7 +38,7 @@ const Homepage = () => {
         }).then((result) => {
           localStorage.setItem("current", 0);
           let algorithm = dbIdToAlgorithmId[algorithmId];
-          let path = [drvingTestUrl[algorithm] + id];
+          let path = [...paths[algorithmId % 2], drvingTestUrl[algorithm] + id];
           console.log(path);
           localStorage.setItem("path", JSON.stringify(path));
           window.location.href = JSON.parse(localStorage.getItem("path"))[0];
@@ -85,7 +85,7 @@ const Homepage = () => {
         <p className="py-3">
           This activity is part of a research study conducted at IIIT Hyderabad
           for algodynamics. The aim of the research is to
-          <strong>&nbsp; explore understanding of the algorithm. </strong>.
+          <strong>&nbsp;explore understanding of the algorithm.</strong>.
         </p>
         <h2 className="text-xl">Your Role in the research</h2>
         <p className="py-3">
@@ -103,16 +103,18 @@ const Homepage = () => {
         </p>
         <h2 className="text-xl">Data Protection</h2>
         <p className="py-3">
-          Your <strong> &nbsp; data will remain confidential &nbsp; </strong>{" "}
+          Your <strong>&nbsp; data will remain confidential &nbsp;</strong>{" "}
           and will be used for research purposes only. The research may result
           in scientific publications, conference and seminar presentations, and
           teaching. No Direct identifiers (ex: name, address, photo, video) will
           be collected as part of the survey.
         </p>
+        {/* Update the point(s) of contact */}
         <h2 className="text-xl">Points of contact</h2>
         <ol className="list-disc list-inside py-3">
-          <li>Nishant Sachdeva, IIIT-H</li>
-          <li>VJS Pranavasri, IIIT-H</li>
+          {/* <li>Nishant Sachdeva, IIIT-H</li>
+          <li>VJS Pranavasri, IIIT-H</li> */}
+          <li>Gnaneswar Kulindala, IIIT-H</li>
         </ol>
         <p className="py-3">
           Please click on the agree button below to start the test.

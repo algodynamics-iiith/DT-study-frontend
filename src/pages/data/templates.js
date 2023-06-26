@@ -1,6 +1,6 @@
 import headers from "./headers";
-import { bodyBubble, bodyHeap } from "./functionBody";
-import { mainBubble, mainHeap } from "./main";
+import { bodyBubble, bodyHeap, bodyFact } from "./functionBody";
+import { mainBubble, mainHeap, mainFact } from "./main";
 
 const generateFinalCode = (header, code, main) => {
   return header + "\n\n" + code + "\n\n" + main;
@@ -20,4 +20,11 @@ const templatesHeap = Object.keys(mainHeap).reduce((accumulator, key) => {
   };
 }, {});
 
-export { templatesBubble, templatesHeap };
+const templatesFact = Object.keys(mainFact).reduce((accumulator, key) => {
+  return {
+    ...accumulator,
+    [key]: generateFinalCode(headers[key], bodyFact[key], mainFact[key]),
+  };
+}, {});
+
+export { templatesBubble, templatesHeap, templatesFact };

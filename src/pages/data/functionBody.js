@@ -19,4 +19,14 @@ const bodyHeap = {
     "def heapify(A,i):\n    # insert your code here\n\ndef heapSort(A):\n    # insert your code here",
 };
 
-export { bodyBubble, bodyHeap };
+const bodyFact = {
+  "C (GCC 9.2.0)":
+    "void factorial(int n){\n    // insert your code here\n    \n}",
+  "C++ (GCC 9.2.0)":
+    "void factorial(int n){\n    // insert your code here\n    \n}",
+  "Java (OpenJDK 13.0.1)":
+    "class Solution{\n    public void factorial(int n) {\n        // insert your code here\n    \n    }\n}",
+  "Python (3.8.1)": "def factorial(n):\n    # insert your code here\n    ",
+};
+
+export { bodyBubble, bodyHeap, bodyFact };

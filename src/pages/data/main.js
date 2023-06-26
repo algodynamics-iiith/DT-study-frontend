@@ -12,4 +12,11 @@ const mainHeap = {
   "Python (3.8.1)": `def main():\n    n = int(input())\n    A = list(map(int,input().split(" ")))\n    heapSort(A)\n    print(*A)\n\nmain()`,
 };
 
-export { mainBubble, mainHeap };
+const mainFact = {
+  "C (GCC 9.2.0)": `int main(){\n    \n    int n;\n    scanf("%d",&n);\n    int result = factorial(n);\n    printf("%d ",result);    return 0;\n}`,
+  "C++ (GCC 9.2.0)": `int main(){\n    int n;\n    cin >> n;\n    int result = factorial(n);\n    cout << A[i] << " ";\n    return 0;\n}`,
+  // "Java (OpenJDK 13.0.1)": `public class Main {\n    \n    public static void main(String[] args) {\n        Scanner scan = new Scanner(System.in);\n        int n = scan.nextInt();\n        Solution obj = new Solution();\n        obj.factorial(n);\n        System.out.print(obj);\n        System.out.print(" ");\n    }\n    \n}`,
+  "Python (3.8.1)": `def main():\n    n = int(input())\n    result = factorial(n)\n    print(result)\n\nmain()`,
+};
+
+export { mainBubble, mainHeap, mainFact };

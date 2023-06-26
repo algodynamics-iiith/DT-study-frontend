@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { quiz as heapQ } from "./quiz_templates/heapQuiz";
 import { quiz as bubbleQ } from "./quiz_templates/bubbleQuiz";
+import {quiz as factQ} from "./quiz_templates/factQuiz";
 import { dbIdToAlgorithmId } from "./data/algorithms";
 import Swal from "sweetalert2";
 import { quizInstructions } from "./quiz_templates/quizInstructions";
@@ -65,12 +66,18 @@ const QuizPage = () => {
         }
         setQuiz(bubbleQ);
         localStorage.setItem("shuffledQuiz", JSON.stringify(bubbleQ));
-      } else {
+      } else if (algorithmId === 2) {
         for (let i in heapQ) {
           heapQ[i] = shuffle(heapQ[i]);
         }
         setQuiz(heapQ);
         localStorage.setItem("shuffledQuiz", JSON.stringify(heapQ));
+      } else if (algorithmId === 3) {
+        for (let i in factQ) {
+          factQ[i] = shuffle(factQ[i]);
+        }
+        setQuiz(factQ);
+        localStorage.setItem("shuffledQuiz", JSON.stringify(factQ));
       }
 
       // let tempQuiz = shuffle(impQ);
