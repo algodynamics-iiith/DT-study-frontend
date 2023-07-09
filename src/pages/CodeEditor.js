@@ -25,7 +25,7 @@ const CodeEditor = () => {
   const { testCasesCount } = config;
   const { compilation } = config.errors;
   const { theme } = config.editor;
-  const { lengthArray, minValue, maxValue } = config[algorithmId];
+  // const { lengthArray, minValue, maxValue } = config[algorithmId];
 
   const leftPanel = codeInstructions[algorithmId];
 
@@ -73,36 +73,37 @@ const CodeEditor = () => {
   };
 
   const validateInput = (input) => {
-    const splittedInput = input.trim().split("\n");
-    if (splittedInput.length < 2)
-      return {
-        message: "There should be two lines in input.",
-        flag: false,
-      };
-    else {
-      const n = parseInt(splittedInput[0].trim());
-      if (isNaN(n) || (!isNaN(n) && (n < 0 || n > lengthArray)))
-        return {
-          message: "First line should be a valid number.",
-          flag: false,
-        };
-      else {
-        const a = splittedInput[1].trim().split(" ");
+    // const splittedInput = input.trim().split("\n");
+    // if (splittedInput.length < 2)
+    //   return {
+    //     message: "There should be two lines in input.",
+    //     flag: false,
+    //   };
+    // else {
+    //   const n = parseInt(splittedInput[0].trim());
+    //   if (isNaN(n) || (!isNaN(n) && (n < 0 || n > lengthArray)))
+    //     return {
+    //       message: "First line should be a valid number.",
+    //       flag: false,
+    //     };
+    //   else {
+    //     const a = splittedInput[1].trim().split(" ");
 
-        if (
-          a
-            .filter((x) => !isNaN(x))
-            // .filter(!isNaN)
+    //     if (
+    //       a
+    //         .filter((x) => !isNaN(x))
+    //         // .filter(!isNaN)
 
-            .filter((x) => x >= minValue && x <= maxValue).length !== n
-        )
-          return {
-            message: `There should be exactly ${n} numbers.`,
-            flag: false,
-          };
-        else return { message: "Okay!", flag: true };
-      }
-    }
+    //         .filter((x) => x >= minValue && x <= maxValue).length !== n
+    //     )
+    //       return {
+    //         message: `There should be exactly ${n} numbers.`,
+    //         flag: false,
+    //       };
+    //     else 
+        return { message: "Okay!", flag: true };
+      // }
+    // }
   };
 
   const Toast = Swal.mixin({

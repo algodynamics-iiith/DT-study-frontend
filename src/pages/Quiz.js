@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { quiz as heapQ } from "./quiz_templates/heapQuiz";
 import { quiz as bubbleQ } from "./quiz_templates/bubbleQuiz";
-import {quiz as factQ} from "./quiz_templates/factQuiz";
+import { quiz as factQ} from "./quiz_templates/factQuiz";
 import { dbIdToAlgorithmId } from "./data/algorithms";
 import Swal from "sweetalert2";
 import { quizInstructions } from "./quiz_templates/quizInstructions";
