@@ -1,5 +1,5 @@
 {
-  "homepage": "https://algodynamics-iiith.github.io/DT-study-frontend/",
+  "homepage": "./DT-study-frontend",
   "name": "dt-study-frontend",
   "version": "0.1.0",
   "private": true,
