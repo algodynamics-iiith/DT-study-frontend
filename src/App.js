@@ -162,7 +162,7 @@ const App = ({ element }) => {
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           {/* <Route path="/" element={<Homepage />} /> */}
-          <Route exact path="/home" element={<Homepage />} />
+          <Route exact path="/" element={<Homepage />} />
           <Route exact path="/code" element={<CodeEditor />} />
           <Route exact path="/debug" element={<CodeDebugger />} />
           <Route exact path="/quiz" element={<QuizPage />} />
