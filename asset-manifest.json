@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "./static/css/main.6e7cd191.css",
-    "main.js": "./static/js/main.75d26f80.js",
-    "static/js/787.1d61570b.chunk.js": "./static/js/787.1d61570b.chunk.js",
-    "static/media/q4.png": "./static/media/q4.82efde245bdd1ed0af1c.png",
-    "static/media/q13.png": "./static/media/q13.b7d57a9167e541091f64.png",
-    "static/media/q6.png": "./static/media/q6.8baa0648ebd0c784b78c.png",
-    "index.html": "./index.html",
-    "main.6e7cd191.css.map": "./static/css/main.6e7cd191.css.map",
-    "main.75d26f80.js.map": "./static/js/main.75d26f80.js.map",
-    "787.1d61570b.chunk.js.map": "./static/js/787.1d61570b.chunk.js.map"
+    "main.css": "/DT-study-frontend/static/css/main.6e7cd191.css",
+    "main.js": "/DT-study-frontend/static/js/main.ed61f400.js",
+    "static/js/787.1d61570b.chunk.js": "/DT-study-frontend/static/js/787.1d61570b.chunk.js",
+    "static/media/q4.png": "/DT-study-frontend/static/media/q4.82efde245bdd1ed0af1c.png",
+    "static/media/q13.png": "/DT-study-frontend/static/media/q13.b7d57a9167e541091f64.png",
+    "static/media/q6.png": "/DT-study-frontend/static/media/q6.8baa0648ebd0c784b78c.png",
+    "index.html": "/DT-study-frontend/index.html",
+    "main.6e7cd191.css.map": "/DT-study-frontend/static/css/main.6e7cd191.css.map",
+    "main.ed61f400.js.map": "/DT-study-frontend/static/js/main.ed61f400.js.map",
+    "787.1d61570b.chunk.js.map": "/DT-study-frontend/static/js/787.1d61570b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6e7cd191.css",
-    "static/js/main.75d26f80.js"
+    "static/js/main.ed61f400.js"
   ]
 }
